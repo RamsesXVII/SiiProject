@@ -1,0 +1,35 @@
+package parsing;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+
+public class Parser {
+	public static void main( String[] args ) throws Exception {
+
+		FileReader input = new FileReader("training_set_tweets_fixed.txt");
+		BufferedReader bufRead = new BufferedReader(input);
+
+		File out1 = new File("tweet_parsati.txt");
+		FileWriter fw1 = new FileWriter(out1,true);
+		BufferedWriter bw1 = new BufferedWriter(fw1);
+
+		ParserUtility pUtility= new ParserUtility();
+
+		String linea = null;
+
+		//effettua il parsing di tutti i tweet del file
+		while ((linea = bufRead.readLine())!=null){
+			
+			bw1.write(pUtility.cleanSentence(linea));
+			bw1.write("\n");
+			bw1.flush();		
+		}
+
+		bw1.close();
+		bufRead.close();	
+	}
+}

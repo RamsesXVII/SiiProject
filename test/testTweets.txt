@@ -1,0 +1,3 @@
+Firenze |EndOfCityID| bischero
+Roma |EndOfCityID| ao che bella giornata
+Roma |EndOfCityID| bella zi
