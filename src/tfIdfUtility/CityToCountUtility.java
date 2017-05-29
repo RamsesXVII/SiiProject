@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class CityToCountUtility {
 	private HashMap<String, HashSet<CityToCount>> wordToCityCount;
-	
+
 	public CityToCountUtility(){
 		this.wordToCityCount=new HashMap<String, HashSet<CityToCount>>();
 	}
@@ -21,7 +21,7 @@ public class CityToCountUtility {
 	 * @param cityName
 	 */
 	public void addWordToCityCount(String wordToInsert, String cityName){
-		if(wordToCityCount.keySet().contains(wordToInsert)){
+		if(wordToCityCount.containsKey(wordToInsert)){
 
 			boolean cityAlreadyPresent=false;
 			HashSet<CityToCount> cities=wordToCityCount.get(wordToInsert);
@@ -100,7 +100,7 @@ public class CityToCountUtility {
 
 		for(String word:words){
 			Set<CityToCount>citiesToCount=words2citiesToCount.get(word);
-			
+
 			for(CityToCount city:citiesToCount){
 				if(cities2words2count.containsKey(city.getCity())){
 					cities2words2count.get(city.getCity()).add(new WordToCount(word, city.getCount()));

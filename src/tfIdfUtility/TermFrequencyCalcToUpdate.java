@@ -27,43 +27,37 @@ public class TermFrequencyCalcToUpdate {
 	}
 
 	public HashMap<String,HashMap<String,Double>> getTfIdfMap() throws SQLException {
-		System.out.println("##############################");
-		HashSet<String> uniqWords=new HashSet<String>();
-		this.mAccess.addUniqueWordsFromDB(uniqWords);
-		System.out.println("##############################");
-
 
 		HashMap<String,HashMap<String,Double>>word2cityTfIdf=new HashMap<String,HashMap<String,Double>>();
 		Set<String> words=words2citiesToCount.keySet();
-		System.out.println("numero parole "+words.size());
+		System.out.println("numero parole "+words.size()); ///questo
 		HashMap<String,Double> citiesToScore=new HashMap<>();
 		int counter=0;
 
 		for(String word :words){
-			if(!uniqWords.contains(word)){
-				citiesToScore=new HashMap<>();
-				counter++;
-				if(counter%100000==0)
-					System.out.println(counter);
-				//	System.out.println("parola "+word);
-				Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
-				int numberOfCitiesByTerm=cities2Count.size();
-				for(CityToCount city:cities2Count){
-					int maxOccurrencies=computeMaxOccurrencies(this.cities2wordsToCount.get(city.getCity()));
+			citiesToScore=new HashMap<>();
+			counter++;
+			if(counter%100000==0)
+				System.out.println(counter);
+			//	System.out.println("parola "+word);
+			Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
+			int numberOfCitiesByTerm=cities2Count.size();
+			for(CityToCount city:cities2Count){
+				int maxOccurrencies=computeMaxOccurrencies(this.cities2wordsToCount.get(city.getCity()));
 
-					int numberOfOccurrencies=city.getCount();
-					double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
-					//		HashMap<String,Double>cityToIdf=new HashMap<>();
-					//	cityToIdf.put(city.getCity(),new Double(tfIdf), new Double(tfIdf));
-					//	word2cityTfIdf.put(word,cityToIdf);
-					//	insertItem(word,city.getCity(),new Double(tfIdf), word2cityTfIdf);
-					//	mAccess.peristIdf(word,city.getCity(),tfIdf);
-					citiesToScore.put(city.getCity(), tfIdf);
-				}
-				this.mAccess.persistfIdfFromMap1(word, citiesToScore);
-
+				int numberOfOccurrencies=city.getCount();
+				double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
+				//		HashMap<String,Double>cityToIdf=new HashMap<>();
+				//	cityToIdf.put(city.getCity(),new Double(tfIdf), new Double(tfIdf));
+				//	word2cityTfIdf.put(word,cityToIdf);
+				//	insertItem(word,city.getCity(),new Double(tfIdf), word2cityTfIdf);
+				//	mAccess.peristIdf(word,city.getCity(),tfIdf);
+				citiesToScore.put(city.getCity(), tfIdf);
 			}
+			this.mAccess.persistfIdfFromMap1(word, citiesToScore);
+
 		}
+
 		return word2cityTfIdf;
 	}
 

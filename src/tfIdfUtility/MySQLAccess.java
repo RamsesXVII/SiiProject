@@ -130,10 +130,10 @@ public class MySQLAccess {
 		query=query.substring(0,query.length()-2);
 		query+=";";
 		//sSystem.out.println(query);
-		preparedStatement = connect.prepareStatement(query);
-		preparedStatement.executeUpdate();
+//		preparedStatement = connect.prepareStatement(query);
+//		preparedStatement.executeUpdate();
 
-
+//		INSERT INTO sii.wordToCitytfIdf (word,city,tfIdf) VALUES (roma,ao3),(milano,bella,4);
 
 	}
 
