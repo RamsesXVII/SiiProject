@@ -24,8 +24,7 @@ public class main {
 		
 		
 		System.out.println("****************************");
-		MySQLAccess mAccess= new MySQLAccess();
-		mAccess.persistfIdfFromMap(word2cityTfIdf);
+	//	mAccess.persistfIdfFromMap(word2cityTfIdf);
 		
 	}
 

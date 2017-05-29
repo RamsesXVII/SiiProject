@@ -16,41 +16,58 @@ public class TermFrequencyCalcToUpdate {
 	private HashMap<String, HashSet<CityToCount>>  words2citiesToCount;
 	private HashMap<String,HashSet<WordToCount>> cities2wordsToCount;
 	private int numberOfCitiesTotal;
+	private MySQLAccess mAccess;
 
 	public TermFrequencyCalcToUpdate(HashMap<String, HashSet<CityToCount>> words2citiesToCount,
 			HashMap<String,HashSet<WordToCount>> cities2wordsToCount) throws ClassNotFoundException, SQLException{
 		this.words2citiesToCount=words2citiesToCount;
 		this.cities2wordsToCount=cities2wordsToCount;
 		this.numberOfCitiesTotal=cities2wordsToCount.keySet().size();
+		this.mAccess= new MySQLAccess();
 	}
-	
-	public HashMap<String,HashMap<String,Double>> getTfIdfMap() {
+
+	public HashMap<String,HashMap<String,Double>> getTfIdfMap() throws SQLException {
+		System.out.println("##############################");
+		HashSet<String> uniqWords=new HashSet<String>();
+		this.mAccess.addUniqueWordsFromDB(uniqWords);
+		System.out.println("##############################");
+
+
 		HashMap<String,HashMap<String,Double>>word2cityTfIdf=new HashMap<String,HashMap<String,Double>>();
 		Set<String> words=words2citiesToCount.keySet();
 		System.out.println("numero parole "+words.size());
+		HashMap<String,Double> citiesToScore=new HashMap<>();
 		int counter=0;
 
 		for(String word :words){
-			counter++;
-			if(counter%100000==0)
-				System.out.println(counter);
-		//	System.out.println("parola "+word);
-			Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
-			int numberOfCitiesByTerm=cities2Count.size();
-			for(CityToCount city:cities2Count){
-				int maxOccurrencies=computeMaxOccurrencies(this.cities2wordsToCount.get(city.getCity()));
-				
-				int numberOfOccurrencies=city.getCount();
-				double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
-		//		HashMap<String,Double>cityToIdf=new HashMap<>();
-			//	cityToIdf.put(city.getCity(),new Double(tfIdf), new Double(tfIdf));
-			//	word2cityTfIdf.put(word,cityToIdf);
-				insertItem(word,city.getCity(),new Double(tfIdf), word2cityTfIdf);
-			//	mAccess.peristIdf(word,city.getCity(),tfIdf);
+			if(!uniqWords.contains(word)){
+				citiesToScore=new HashMap<>();
+				counter++;
+				if(counter%100000==0)
+					System.out.println(counter);
+				//	System.out.println("parola "+word);
+				Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
+				int numberOfCitiesByTerm=cities2Count.size();
+				for(CityToCount city:cities2Count){
+					int maxOccurrencies=computeMaxOccurrencies(this.cities2wordsToCount.get(city.getCity()));
+
+					int numberOfOccurrencies=city.getCount();
+					double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
+					//		HashMap<String,Double>cityToIdf=new HashMap<>();
+					//	cityToIdf.put(city.getCity(),new Double(tfIdf), new Double(tfIdf));
+					//	word2cityTfIdf.put(word,cityToIdf);
+					//	insertItem(word,city.getCity(),new Double(tfIdf), word2cityTfIdf);
+					//	mAccess.peristIdf(word,city.getCity(),tfIdf);
+					citiesToScore.put(city.getCity(), tfIdf);
+				}
+				this.mAccess.persistfIdfFromMap1(word, citiesToScore);
+
 			}
 		}
 		return word2cityTfIdf;
 	}
+
+
 
 	private void insertItem(String word, String city, Double tfIdf,HashMap<String, HashMap<String, Double>> word2cityTfIdf) {
 		if(word2cityTfIdf.containsKey(word)){
@@ -61,9 +78,9 @@ public class TermFrequencyCalcToUpdate {
 			HashMap<String, Double> citiesToIdf=new HashMap<>();
 			citiesToIdf.put(city, tfIdf);
 			word2cityTfIdf.put(word, citiesToIdf);
-			
+
 		}
-		
+
 	}
 
 	private double computeTfIdf(Integer count, int maxOccurrencies, int numberOfCitiesTotal, int numberOfCitiesByTerm) {
