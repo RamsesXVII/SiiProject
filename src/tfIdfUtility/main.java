@@ -11,7 +11,7 @@ public class main {
 
 		
 		CityToCountUtility cUtility=new CityToCountUtility();
-		cUtility.addItemsFromFile("city2text.txt");
+		cUtility.addItemsFromFile("resources/iodice.txt");
 		
 		HashMap<String, HashSet<CityToCount>>  words2citiesToCount=cUtility.getWordToCityCount();
 		System.out.println("****************************");
@@ -19,13 +19,10 @@ public class main {
 		HashMap<String,HashSet<WordToCount>> cities2wordsToCount=cUtility.convertToCitiesToWords(words2citiesToCount);
 		System.out.println("****************************");
 
-		TermFrequencyCalcToUpdate tfCalc= new TermFrequencyCalcToUpdate(words2citiesToCount, cities2wordsToCount);
+		TermFrequencyCalculator tfCalc= new TermFrequencyCalculator(words2citiesToCount, cities2wordsToCount);
 		HashMap<String,HashMap<String,Double>>word2cityTfIdf=tfCalc.getTfIdfMap();
 		
 		
 		System.out.println("****************************");
-	//	mAccess.persistfIdfFromMap(word2cityTfIdf);
-		
 	}
-
 }

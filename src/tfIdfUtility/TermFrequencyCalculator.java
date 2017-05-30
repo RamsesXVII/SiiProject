@@ -12,13 +12,13 @@ import tfIdfUtility.WordToCount;
 /*
  * Class to support test. Use a map instead of mysql.
  */
-public class TermFrequencyCalcToUpdate {
+public class TermFrequencyCalculator {
 	private HashMap<String, HashSet<CityToCount>>  words2citiesToCount;
 	private HashMap<String,HashSet<WordToCount>> cities2wordsToCount;
 	private int numberOfCitiesTotal;
 	private MySQLAccess mAccess;
 
-	public TermFrequencyCalcToUpdate(HashMap<String, HashSet<CityToCount>> words2citiesToCount,
+	public TermFrequencyCalculator(HashMap<String, HashSet<CityToCount>> words2citiesToCount,
 			HashMap<String,HashSet<WordToCount>> cities2wordsToCount) throws ClassNotFoundException, SQLException{
 		this.words2citiesToCount=words2citiesToCount;
 		this.cities2wordsToCount=cities2wordsToCount;
