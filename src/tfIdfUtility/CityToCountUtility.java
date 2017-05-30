@@ -66,7 +66,8 @@ public class CityToCountUtility {
 				String[] splittedTweet=splittedLine[1].split("\\s+");
 
 				for(String tweet : splittedTweet)
-					this.addWordToCityCount(tweet.replaceAll("\\s+", ""), city.replaceAll("\\s+", ""));
+					if(tweet.length()>1)
+						this.addWordToCityCount(tweet.replaceAll("\\s+", ""), city.replaceAll("\\s+", ""));
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("File non trovato, va nella cartella pi� esterna");
