@@ -1,4 +1,4 @@
-package classificatore;
+package parsing;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,7 +13,7 @@ public class City2Text {
 	//public void city2text()throws IOException{
 	public static void main(String[] args) throws IOException{
 
-		FileReader input1 = new FileReader("resources/oddiFile.txt");
+		FileReader input1 = new FileReader("resources/user2city.txt");
 		BufferedReader bf1 = new BufferedReader(input1);
 
 		HashMap<String, String> user2city = new HashMap<>();

@@ -20,7 +20,7 @@ public class User2CityCleaner {
 		
 		CityAndStateParser parser = new CityAndStateParser("resources/occur_city.txt");
 
-		File output = new File("resources/oddiFile.txt");
+		File output = new File("resources/user2city.txt");
 		FileWriter fw1 = new FileWriter(output,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 
