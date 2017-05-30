@@ -13,12 +13,14 @@ import java.io.IOException;
 public class User2CityCleaner {
 	public static void main(String[] args) throws IOException{
 
-		FileReader input = new FileReader("training_set_users.txt");
+		//cut -f 2 training_set_users.txt | sort  | uniq -c | sed "s/^[ \t]*//" > occur_city.txt
+		
+		FileReader input = new FileReader("resources/training_set_users.txt");
 		BufferedReader lines = new BufferedReader(input);
 		
-		CityAndStateParser parser = new CityAndStateParser("occur_city.txt");
+		CityAndStateParser parser = new CityAndStateParser("resources/occur_city.txt");
 
-		File output = new File("oddiFile.txt");
+		File output = new File("resources/oddiFile.txt");
 		FileWriter fw1 = new FileWriter(output,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 
@@ -35,7 +37,6 @@ public class User2CityCleaner {
 				String state = parser.bestState4UntaggedCity(splitLocation[0]);
 				if(state.length()!=2){ state= parser.bestAbbreviaton4State(state);}
 				location= location+", "+state;
-				System.out.println(location);
 			}
 			else if(splitLocation[1].replaceAll("^ *","").length()>3){
 				location= splitLocation[0] +", "+parser.bestAbbreviaton4State(splitLocation[1].replaceAll("^ *",""));

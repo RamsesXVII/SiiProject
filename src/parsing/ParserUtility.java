@@ -24,9 +24,7 @@ public class ParserUtility {
 		String cleanedID= splittedString[0] + " |EndOfUserID| ";
 		String cleanedText= "";
 		
-		for(int i=2;i<splittedString.length;i++){
-
-			if(!(i>splittedString.length-3) && (splittedString[i].length()>1)){
+		for(int i=2;i<splittedString.length-2;i++){
 				boolean containsNotWords=false;
 
 				for(String notWord:notWordsSet){
@@ -35,11 +33,13 @@ public class ParserUtility {
 				}
 
 				if(!containsNotWords){
-					splittedString[i]=splittedString[i].replaceAll("[^A-Za-z0-9\\-\\'\\& ]", "");
-					cleanedText= cleanedText + " " + splittedString[i].toLowerCase();
+					splittedString[i]=splittedString[i].replaceAll("[^A-Za-z0-9\\-\\&\\' ]", "");
+					if(splittedString[i].contains("'"))
+						splittedString[i]= splittedString[i].replaceAll("'", "@");
+					if(!(splittedString[i].length()==1))
+						cleanedText= cleanedText + " " + splittedString[i].toLowerCase();
 				}
 			}
-		}
 		if (!(cleanedText.equals("")))
 			 return cleanedID + cleanedText;
 		return null;

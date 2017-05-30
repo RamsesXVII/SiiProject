@@ -10,10 +10,13 @@ import java.io.FileWriter;
 public class Parser {
 	public static void main( String[] args ) throws Exception {
 
-		FileReader input = new FileReader("training_set_tweets_fixed.txt");
+		
+		//cat training_set_tweets.txt | egrep '^[0-9]+[^\\S]' > training_set_tweets_fixed.txt
+		
+		FileReader input = new FileReader("resources/training_set_tweets_fixed.txt");
 		BufferedReader bufRead = new BufferedReader(input);
 
-		File out1 = new File("tweet_parsati.txt");
+		File out1 = new File("resources/tweet_parsati.txt");
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 

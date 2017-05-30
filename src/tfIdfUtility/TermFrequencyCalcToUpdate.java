@@ -47,34 +47,13 @@ public class TermFrequencyCalcToUpdate {
 
 				int numberOfOccurrencies=city.getCount();
 				double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
-				//		HashMap<String,Double>cityToIdf=new HashMap<>();
-				//	cityToIdf.put(city.getCity(),new Double(tfIdf), new Double(tfIdf));
-				//	word2cityTfIdf.put(word,cityToIdf);
-				//	insertItem(word,city.getCity(),new Double(tfIdf), word2cityTfIdf);
-				//	mAccess.peristIdf(word,city.getCity(),tfIdf);
 				citiesToScore.put(city.getCity(), tfIdf);
 			}
 			this.mAccess.persistfIdfFromMap1(word, citiesToScore);
 
 		}
-
+		this.mAccess.close();
 		return word2cityTfIdf;
-	}
-
-
-
-	private void insertItem(String word, String city, Double tfIdf,HashMap<String, HashMap<String, Double>> word2cityTfIdf) {
-		if(word2cityTfIdf.containsKey(word)){
-			HashMap<String, Double> citiesToIdf=word2cityTfIdf.get(word);
-			citiesToIdf.put(city, tfIdf);
-		}
-		else{
-			HashMap<String, Double> citiesToIdf=new HashMap<>();
-			citiesToIdf.put(city, tfIdf);
-			word2cityTfIdf.put(word, citiesToIdf);
-
-		}
-
 	}
 
 	private double computeTfIdf(Integer count, int maxOccurrencies, int numberOfCitiesTotal, int numberOfCitiesByTerm) {

@@ -57,7 +57,7 @@ public class MySQLAccess {
 		return writeCitiesSet(resultSet);
 	}
 
-	private void close() {
+	public void close() {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -112,8 +112,6 @@ public class MySQLAccess {
 			for(String city:citiesToTfIdf.keySet()){
 				Double tfIdf=citiesToTfIdf.get(city);
 				//System.out.println(tfIdf);
-				if(word.contains("'"))
-					word=word.replaceAll("'", "@");
 				preparedStatement = connect.prepareStatement("INSERT INTO sii.wordToCitytfIdf (word,city,tfIdf) VALUES ('"+word+"','"+city+"','"+tfIdf+"')");
 				preparedStatement.executeUpdate();
 
@@ -122,8 +120,6 @@ public class MySQLAccess {
 	}
 	public void persistfIdfFromMap1(String word, HashMap<String,Double> citiesToScore ) throws SQLException{
 		String query="INSERT INTO sii.wordToCitytfIdf (word,city,tfIdf) VALUES ";
-		if(word.contains("'"))
-			word=word.replaceAll("'", "@");
 		for(String city:citiesToScore.keySet())
 			query+="('"+word+"','"+city+"','"+citiesToScore.get(city)+"'), ";
 

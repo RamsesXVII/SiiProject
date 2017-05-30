@@ -13,7 +13,7 @@ public class City2Text {
 	//public void city2text()throws IOException{
 	public static void main(String[] args) throws IOException{
 
-		FileReader input1 = new FileReader("oddiFile.txt");
+		FileReader input1 = new FileReader("resources/oddiFile.txt");
 		BufferedReader bf1 = new BufferedReader(input1);
 
 		HashMap<String, String> user2city = new HashMap<>();
@@ -29,11 +29,11 @@ public class City2Text {
 
 		bf1.close();
 
-		File out1 = new File("city2text.txt");
+		File out1 = new File("resources/city2text.txt");
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter city2text = new BufferedWriter(fw1);
 
-		FileReader input2 = new FileReader("tweet_parsati.txt");
+		FileReader input2 = new FileReader("resources/tweet_parsati.txt");
 		BufferedReader tweetParsed = new BufferedReader(input2);
 
 		String lineaTweet=null;
@@ -42,10 +42,9 @@ public class City2Text {
 			String[] fields = lineaTweet.split("\\|EndOfUserID\\|");
 			String userID = fields[0].replaceAll(" ", "");
 			String tweetText = fields[1];
-			city2text.write(user2city.get(userID) + " |EndOfCityID| " + tweetText+"\n");
+			if (user2city.get(userID)!=null)
+				city2text.write(user2city.get(userID) + " |EndOfCityID| " + tweetText+"\n");
 		}
-
-
 
 		tweetParsed.close();
 		city2text.close();
