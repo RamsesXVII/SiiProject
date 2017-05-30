@@ -10,20 +10,13 @@ import java.io.IOException;
 
 
 
-public class TraningUserCleaner {
+public class User2CityCleaner {
 	public static void main(String[] args) throws IOException{
-
-
-		//cut -f 2 training_set_users.txt | sort  | uniq -c > occur_city.txt
-
-		CityAndStateParser parser = new CityAndStateParser("occur_city.txt");
-		String trovaAbbStato = parser.bestAbbreviaton4State("Florida");
-		System.out.println(trovaAbbStato);
-		String trovaStatoXcitta = parser.bestState4UntaggedCity("Miami");
-		System.out.println(trovaStatoXcitta);
 
 		FileReader input = new FileReader("training_set_users.txt");
 		BufferedReader lines = new BufferedReader(input);
+		
+		CityAndStateParser parser = new CityAndStateParser("occur_city.txt");
 
 		File output = new File("oddiFile.txt");
 		FileWriter fw1 = new FileWriter(output,true);

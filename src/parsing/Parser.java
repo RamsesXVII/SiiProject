@@ -24,9 +24,12 @@ public class Parser {
 		//effettua il parsing di tutti i tweet del file
 		while ((linea = bufRead.readLine())!=null){
 			
-			bw1.write(pUtility.cleanSentence(linea));
-			bw1.write("\n");
-			bw1.flush();		
+			String cleanedLine = pUtility.cleanSentence(linea);
+			if (cleanedLine!= null){
+				bw1.write(cleanedLine);
+				bw1.write("\n");
+				bw1.flush();		
+			}		
 		}
 
 		bw1.close();

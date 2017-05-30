@@ -6,51 +6,49 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class City2Text {
-		
+
 	//public void city2text()throws IOException{
 	public static void main(String[] args) throws IOException{
-	
-		FileReader input1 = new FileReader("resources/city2user.txt");
-		BufferedReader city2user = new BufferedReader(input1);
-		
-		File out1 = new File("resources/city2text.txt");
+
+		FileReader input1 = new FileReader("oddiFile.txt");
+		BufferedReader bf1 = new BufferedReader(input1);
+
+		HashMap<String, String> user2city = new HashMap<>();
+
+		String userCity= null;
+
+		while((userCity = bf1.readLine())!=null){
+			String[] fields = userCity.split("\\|EndOfUserID\\|");
+			String user = fields[0];
+			String city= fields[1];
+			user2city.put(user, city);
+		}
+
+		bf1.close();
+
+		File out1 = new File("city2text.txt");
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter city2text = new BufferedWriter(fw1);
-		
-		String lineaCity=null;
+
+		FileReader input2 = new FileReader("tweet_parsati.txt");
+		BufferedReader tweetParsed = new BufferedReader(input2);
+
 		String lineaTweet=null;
-		String[] cityUtenti=null;
-		String[] tweet=null;
-		
-		while ((lineaCity=city2user.readLine())!=null){ 
-			cityUtenti = lineaCity.split("\\t|\\, ");
-			city2text.write(cityUtenti[0] + " EndOfCity ");
-			
-			for(int i=1; i<cityUtenti.length; i++){
-				FileReader input2 = new FileReader("resources/tweet_parsati.txt");
-				BufferedReader tweetParsed = new BufferedReader(input2);
-				
-				while((lineaTweet = tweetParsed.readLine())!=null){
-					tweet = lineaTweet.split("\\s+");
-					
-					if(cityUtenti[i].equals(tweet[0])){
-						
-						for(int y=1; y<tweet.length; y++){
-							city2text.write(tweet[y]+" ");
-						}
-						
-						city2text.write(", ");					
-					}
-				}
-				tweetParsed.close();				
-			}
-			city2text.write("\n");
-			city2text.flush();
+
+		while((lineaTweet = tweetParsed.readLine())!=null){
+			String[] fields = lineaTweet.split("\\|EndOfUserID\\|");
+			String userID = fields[0].replaceAll(" ", "");
+			String tweetText = fields[1];
+			city2text.write(user2city.get(userID) + " |EndOfCityID| " + tweetText+"\n");
 		}
+
+
+
+		tweetParsed.close();
 		city2text.close();
-		city2user.close();
-	}
+	}	
 }
 

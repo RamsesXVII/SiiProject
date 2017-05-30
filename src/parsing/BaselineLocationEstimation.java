@@ -101,6 +101,7 @@ public class BaselineLocationEstimation {
 				+ " hit 3000 views mark today follow hope you're reading articles god info azine ,"
 				+ " Interesting , unfortunate dream , Understanding Users Social Networks HBS Twitter ,"
 				+ " talking Pats reason part statistic LET'S PATS , Happy Sunday"));
+		city.close();
 	}
 
 }
