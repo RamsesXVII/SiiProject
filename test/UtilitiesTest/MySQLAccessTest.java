@@ -1,4 +1,4 @@
-package tfIdfUtility;
+package UtilitiesTest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,27 +8,51 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+//create database sii
+
+
 import java.util.Map;
 
+import validation.City2Score;
 
-public class MySQLAccess {
+
+public class MySQLAccessTest {
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	public MySQLAccess() throws ClassNotFoundException, SQLException{
+	public MySQLAccessTest() throws ClassNotFoundException, SQLException{
 		// This will load the MySQL driver, each DB has its own driver
-
 		Class.forName("com.mysql.jdbc.Driver");
 		connect = DriverManager.getConnection("jdbc:mysql://localhost/sii?user=root&password=root");
 		statement = connect.createStatement();
 	}
 
 
+	public void close() {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+
+			if (statement != null) {
+				statement.close();
+			}
+
+			if (connect != null) {
+				connect.close();
+			}
+		} catch (Exception e) {
+
+		}
+	}
+	
 	public Map<String, Map<String, Double>> populateWordMap() throws SQLException{
 		Map<String,Map<String,Double>> wordMap= new HashMap<String, Map<String,Double>>();
-		preparedStatement = connect.prepareStatement("select word,city,state,tfidf from wordToCitytfIdf order by word");
+		preparedStatement = connect.prepareStatement("select word,city,state,tfidf from testTable");
 		resultSet = preparedStatement.executeQuery();
 		String prevWord="";
 		String currentWord="";
@@ -36,7 +60,6 @@ public class MySQLAccess {
 		Double tfidf=null;
 		Map<String, Double> oldCity2score=null;
 		Map<String, Double>  city2score=null;
-		System.out.println("fine query: inizio ad aggiungere alla mappa");
 		while (resultSet.next()) {
 			try{
 				city=resultSet.getString("city")+","+resultSet.getString("state");
@@ -60,59 +83,13 @@ public class MySQLAccess {
 			}
 		}
 		this.close();
-		System.out.println("ho finito di aggiungere in mappa");
 		return wordMap;
 
 	}
 
 
-
-
-	/**
-	 * persist tfIdf values
-	 * @throws SQLException 
-	 */
-
-	public void persistfIdfFromMap1(String word, HashMap<String,Double> citiesToScore ) throws SQLException{
-		String query="INSERT INTO sii.wordToCitytfIdf (word,city,tfIdf) VALUES ";
-		for(String city:citiesToScore.keySet())
-			query+="('"+word+"','"+city+"','"+citiesToScore.get(city)+"'), ";
-
-		query=query.substring(0,query.length()-2);
-		query+=";";
+	public void insertNewRecord(String query) throws SQLException {
 		preparedStatement = connect.prepareStatement(query);
 		preparedStatement.executeUpdate();
-
-	}
-
-	public void addUniqueWordsFromDB(HashSet<String> uniqWords) throws SQLException {
-		preparedStatement = connect.prepareStatement("select distinct word from wordtocitytfidf;");
-		resultSet = preparedStatement.executeQuery();
-		writeWordsResult(resultSet,uniqWords);
-
-	}
-
-	private void writeWordsResult(ResultSet resultSet, HashSet<String> uniqWords) throws SQLException {
-		while (resultSet.next()) {
-			uniqWords.add(resultSet.getString("word"));
-		}
-	}
-
-	public void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-
-			if (statement != null) {
-				statement.close();
-			}
-
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (Exception e) {
-
-		}
 	}
 }
