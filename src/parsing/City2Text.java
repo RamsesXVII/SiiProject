@@ -10,10 +10,11 @@ import java.util.HashMap;
 
 public class City2Text {
 
-	//public void city2text()throws IOException{
-	public static void main(String[] args) throws IOException{
+	public City2Text(){}
 
-		FileReader input1 = new FileReader("resources/user2city.txt");
+	public void userJoinCity(String user2cityFile, String city2textFile, String tweets) throws IOException{
+
+		FileReader input1 = new FileReader(user2cityFile);
 		BufferedReader bf1 = new BufferedReader(input1);
 
 		HashMap<String, String> user2city = new HashMap<>();
@@ -29,11 +30,11 @@ public class City2Text {
 
 		bf1.close();
 
-		File out1 = new File("resources/city2text.txt");
+		File out1 = new File(city2textFile);
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter city2text = new BufferedWriter(fw1);
 
-		FileReader input2 = new FileReader("resources/tweet_parsati.txt");
+		FileReader input2 = new FileReader(tweets);
 		BufferedReader tweetParsed = new BufferedReader(input2);
 
 		String lineaTweet=null;

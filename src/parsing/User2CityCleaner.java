@@ -11,16 +11,17 @@ import java.io.IOException;
 
 
 public class User2CityCleaner {
-	public static void main(String[] args) throws IOException{
-
-		//cut -f 2 training_set_users.txt | sort  | uniq -c | sed "s/^[ \t]*//" > occur_city.txt
+	
+	public User2CityCleaner(){}
+	
+	public void userCleaning(String rawUser2City, String user2cityCleaned, String occurCity) throws IOException{
 		
-		FileReader input = new FileReader("resources/training_set_users.txt");
+		FileReader input = new FileReader(rawUser2City);
 		BufferedReader lines = new BufferedReader(input);
 		
-		CityAndStateParser parser = new CityAndStateParser("resources/occur_city.txt");
+		CityAndStateParser parser = new CityAndStateParser(occurCity);
 
-		File output = new File("resources/user2city.txt");
+		File output = new File(user2cityCleaned);
 		FileWriter fw1 = new FileWriter(output,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 
@@ -49,9 +50,5 @@ public class User2CityCleaner {
 		bw1.flush();
 		bw1.close();
 		lines.close();
-
-
 	}
-
-
 }
