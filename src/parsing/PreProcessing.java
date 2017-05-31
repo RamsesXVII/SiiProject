@@ -20,9 +20,9 @@ public class PreProcessing {
 		
 		u2c.userCleaning(rawUser2City, user2cityCleaned, occurCity);
 		
-		City2Text c2t = new City2Text();
+		Location2Text c2t = new Location2Text();
 		
 		String city2text = "resources/city2text.txt";
-		c2t.userJoinCity(user2cityCleaned, city2text, tweetsParsed);	
+		c2t.userJoinCity(user2cityCleaned, city2text, tweetsParsed);
 	}
 }

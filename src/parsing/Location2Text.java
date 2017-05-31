@@ -8,13 +8,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class City2Text {
+public class Location2Text {
 
-	public City2Text(){}
+	public Location2Text(){}
 
-	public void userJoinCity(String user2cityFile, String city2textFile, String tweets) throws IOException{
+	public void userJoinCity(String user2locationFile, String location2textFile, String tweets) throws IOException{
 
-		FileReader input1 = new FileReader(user2cityFile);
+		FileReader input1 = new FileReader(user2locationFile);
+
 		BufferedReader bf1 = new BufferedReader(input1);
 
 		HashMap<String, String> user2city = new HashMap<>();
@@ -23,14 +24,14 @@ public class City2Text {
 
 		while((userCity = bf1.readLine())!=null){
 			String[] fields = userCity.split("\\|EndOfUserID\\|");
-			String user = fields[0];
+			String user = fields[0].replaceAll("\\s+", "");
 			String city= fields[1];
 			user2city.put(user, city);
 		}
 
 		bf1.close();
 
-		File out1 = new File(city2textFile);
+		File out1 = new File(location2textFile);
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter city2text = new BufferedWriter(fw1);
 
@@ -41,7 +42,7 @@ public class City2Text {
 
 		while((lineaTweet = tweetParsed.readLine())!=null){
 			String[] fields = lineaTweet.split("\\|EndOfUserID\\|");
-			String userID = fields[0].replaceAll(" ", "");
+			String userID = fields[0].replaceAll("\\s+", "");
 			String tweetText = fields[1];
 			if (user2city.get(userID)!=null)
 				city2text.write(user2city.get(userID) + " |EndOfCityID| " + tweetText+"\n");
