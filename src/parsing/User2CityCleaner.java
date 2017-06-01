@@ -50,6 +50,7 @@ public class User2CityCleaner {
 			}
 
 			bw1.write(idUser+"|EndOfUserID|"+location+"\n");
+			currentLine=lines.readLine();
 		}
 
 		bw1.flush();

@@ -14,6 +14,9 @@ public class CityOfTweetsTeller {
 	private Set<City2Score> candidateCities;
 	private Map<String, Map<String, Double>> myWordMap;
 
+
+
+
 	public CityOfTweetsTeller() throws ClassNotFoundException, SQLException{
 		MySQLAccess mysql= new MySQLAccess();
 		System.out.println("inizio popolazione mappa");
@@ -21,6 +24,29 @@ public class CityOfTweetsTeller {
 		System.out.println("finito popolazione mappa");
 
 	}
+	
+/**
+ * @param tweet parsato
+ * @return lista delle 3 citta piu probabili
+ * @throws ClassNotFoundException
+ * @throws SQLException
+ */
+	public List<City2Score> guessTweetPositionList(String tweet) throws ClassNotFoundException, SQLException {
+		this.currentTweet=tweet;
+		this.candidateCities=new TreeSet<City2Score>();
+		String[] words = tweet.split(" ");
+		guessThePossibleCities(words);
+		return getBestCityCoordinatesList();
+
+	}
+
+/**
+ * latitudine e longitudine della citta più probabile
+ * @param tweet un Tweet parsato
+ * @return coordinate LatLong 
+ * @throws ClassNotFoundException
+ * @throws SQLException
+ */
 
 	public double[] guessTweetPosition(String tweet) throws ClassNotFoundException, SQLException{
 		this.currentTweet=tweet;
@@ -31,17 +57,40 @@ public class CityOfTweetsTeller {
 	}
 
 
+	/**
+	 * chiede al Geocoder di trovare le coordinate
+	 * @return coordinate lat long
+	 */
 	private double[] getBestCityCoordinates(){
 		if(this.candidateCities!=null && this.candidateCities.size()>0){
 			City2Score bestCity = this.candidateCities.stream().findFirst().get();
-			System.out.println("la citta migliore e "+bestCity.getCity());
 			double[] findCoordinate = bestCity.findCoordinate();
 			return findCoordinate;
 		}
 		else return null;
 	}
 
+/**
+ * prende al massimo le 3 citta piu probabili da candidateCities
+ * @return 3BestCities le 3 citta migliori per il tweet
+ */
+	private List<City2Score> getBestCityCoordinatesList(){
+		if(this.candidateCities!=null && this.candidateCities.size()>0){
+			List<City2Score> toReturn = new LinkedList<City2Score>();
+			this.candidateCities.stream().forEach(e->toReturn.add(e));
+			return toReturn.subList(0, Math.min(toReturn.size(),3));
+			
+		}
+		else return null;
+	}
 
+
+/**
+ * popola candidateCities con le citta più adatte per le words passate
+ * @param words le parole del tweet
+ * @throws ClassNotFoundException
+ * @throws SQLException
+ */
 	private void guessThePossibleCities(String[] words) throws ClassNotFoundException, SQLException {
 		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
 
@@ -81,6 +130,11 @@ public class CityOfTweetsTeller {
 
 	public void setCandidateCities(Set<City2Score> candidateCities) {
 		this.candidateCities = candidateCities;
+	}
+
+
+	public Map<String, Map<String, Double>> getMyWordMap() {
+		return myWordMap;
 	}
 
 

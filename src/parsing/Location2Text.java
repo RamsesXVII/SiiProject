@@ -59,4 +59,3 @@ public class Location2Text {
 		city2text.close();
 	}	
 }
-

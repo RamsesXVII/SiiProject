@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class MySQLAccess {
@@ -27,8 +28,8 @@ public class MySQLAccess {
 
 
 	public Map<String, Map<String, Double>> populateWordMap() throws SQLException{
-		Map<String,Map<String,Double>> wordMap= new HashMap<String, Map<String,Double>>();
-		preparedStatement = connect.prepareStatement("select word,city,state,tfidf from wordToCitytfIdf order by word");
+		Map<String,Map<String,Double>> wordMap= new TreeMap<String, Map<String,Double>>();
+		preparedStatement = connect.prepareStatement("select word,city,tfidf from wordToCitytfIdf order by word");
 		resultSet = preparedStatement.executeQuery();
 		String prevWord="";
 		String currentWord="";
@@ -39,7 +40,7 @@ public class MySQLAccess {
 		System.out.println("fine query: inizio ad aggiungere alla mappa");
 		while (resultSet.next()) {
 			try{
-				city=resultSet.getString("city")+","+resultSet.getString("state");
+				city=resultSet.getString("city"); 
 				tfidf=resultSet.getDouble("tfidf");
 				currentWord= resultSet.getString("word");
 
@@ -47,7 +48,7 @@ public class MySQLAccess {
 					city2score.put(city,tfidf);
 				}else{
 					prevWord=currentWord;
-					city2score= new HashMap<String, Double>();
+					city2score= new TreeMap<String, Double>();
 					city2score.put(city,tfidf);
 					oldCity2score=wordMap.put(currentWord, city2score);
 					if(oldCity2score!=null){
@@ -55,7 +56,7 @@ public class MySQLAccess {
 					}
 				}
 			}catch(Exception e){
-				System.out.println(resultSet.getString("city")+","+resultSet.getString("state"));
+				System.out.println(resultSet.getString("city"));
 				System.out.println(resultSet.getString("tfidf"));
 			}
 		}
