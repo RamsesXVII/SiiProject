@@ -4,7 +4,7 @@ public class PreProcessing {
 	public static void main( String[] args ) throws Exception {
 		
 		//CREA TWEET FIXED
-		//cat training_set_tweets.txt | egrep '^[0-9]+[^\\S]' > training_set_tweets_fixed.txt
+		//cat training_set_tweets.txt | egrep --text '^[0-9]+[^\\S]' > training_set_tweets_fixed.txt
 		
 		String rawTweets= "resources/training_set_tweets_fixed.txt";
 		String tweetsParsed ="resources/tweet_parsati.txt";

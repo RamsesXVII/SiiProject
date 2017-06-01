@@ -19,7 +19,7 @@ public class Location2Text {
 	 * @param tweets file con i tweet parsati del tipo UserId |EndOfUserID| testo tweet
 	 * @throws IOException
 	 */
-	public void userJoinLocation(String user2locationFile, String location2textFile, String tweets) throws IOException{
+	public void userJoinLocation(String user2locationFile, String fileOutput, String tweets) throws IOException{
 
 		FileReader input1 = new FileReader(user2locationFile);
 
@@ -38,7 +38,7 @@ public class Location2Text {
 
 		bf1.close();
 
-		File out1 = new File(location2textFile);
+		File out1 = new File(fileOutput);
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter city2text = new BufferedWriter(fw1);
 
