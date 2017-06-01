@@ -1,0 +1,16 @@
+create table testTable	(word char(255),city char(255),state char(255),tfidf decimal(20,19));
+insert	into	testTable	(word,city,state,tfidf)	values	('bischero','Firenze','IT','2.2');
+insert	into	testTable	(word,city,state,tfidf)	values	('bischero','Roma','IT','0.2');
+insert	into	testTable	(word,city,state,tfidf)	values	('bischero','Milano','IT','0.1');
+insert	into	testTable	(word,city,state,tfidf)	values	('fiorentina','Firenze','IT','1.8');
+insert	into	testTable	(word,city,state,tfidf)	values	('fiorentina','Palermo','IT','0.3');
+insert	into	testTable	(word,city,state,tfidf)	values	('mona','Milano','IT','3');
+insert	into	testTable	(word,city,state,tfidf)	values	('aperitivo','Milano','IT','3');
+insert	into	testTable	(word,city,state,tfidf)	values	('ao','Roma','IT','6');
+insert	into	testTable	(word,city,state,tfidf)	values	('tacci','Roma','IT','2.2');
+insert	into	testTable	(word,city,state,tfidf)	values	('totti','Roma','IT','3.5');
+insert	into	testTable	(word,city,state,tfidf)	values	('totti','Milano','IT','1.5');
+insert	into	testTable	(word,city,state,tfidf)	values	('mizzica','Palermo','IT','3.5');
+insert	into	testTable	(word,city,state,tfidf)	values	('arancino','Palermo','IT','3.5');
+insert	into	testTable	(word,city,state,tfidf)	values	('bono','Roma','IT','4.1');
+						
