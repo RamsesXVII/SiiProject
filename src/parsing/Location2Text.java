@@ -11,8 +11,15 @@ import java.util.HashMap;
 public class Location2Text {
 
 	public Location2Text(){}
-
-	public void userJoinCity(String user2locationFile, String location2textFile, String tweets) throws IOException{
+	
+	/**
+	 * @param user2locationFile file del tipo UserId |EndOfUserID| Città o Geolocalizzazione
+	 * @param fileOutput file che esegue il join dello userId dei due file, ottendendo un file
+	 * 		  con righe del tipo Location |EndOfCityID| tweet text
+	 * @param tweets file con i tweet parsati del tipo UserId |EndOfUserID| testo tweet
+	 * @throws IOException
+	 */
+	public void userJoinLocation(String user2locationFile, String location2textFile, String tweets) throws IOException{
 
 		FileReader input1 = new FileReader(user2locationFile);
 

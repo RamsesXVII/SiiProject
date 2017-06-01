@@ -14,20 +14,26 @@ public class User2CityCleaner {
 	
 	public User2CityCleaner(){}
 	
-	public void userCleaning(String rawUser2City, String user2cityCleaned, String occurCity) throws IOException{
+	/**
+	 * @param rawUser2City file della forma UserId \tab Città
+	 * @param fileOutput file della forma UserID |EndOfUserID| Città migliorato
+	 * @param occurCity file con occorrenze delle città creato dalla query bash in preProcessing
+	 * @throws IOException
+	 */
+	public void userCleaning(String rawUser2City, String fileOutput, String occurCity) throws IOException{
 		
 		FileReader input = new FileReader(rawUser2City);
 		BufferedReader lines = new BufferedReader(input);
 		
 		CityAndStateParser parser = new CityAndStateParser(occurCity);
 
-		File output = new File(user2cityCleaned);
+		File output = new File(fileOutput);
 		FileWriter fw1 = new FileWriter(output,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 
 
-		String currentLine=lines.readLine();
-		do{
+		String currentLine= null;
+		while((currentLine = lines.readLine())!=null) {
 			String[] splittedRow = currentLine.split("\t");
 			String idUser= splittedRow[0];
 			String location= splittedRow[1];
@@ -45,7 +51,7 @@ public class User2CityCleaner {
 
 			bw1.write(idUser+"|EndOfUserID|"+location+"\n");
 			currentLine=lines.readLine();
-		}while(currentLine!=null);
+		}
 
 		bw1.flush();
 		bw1.close();

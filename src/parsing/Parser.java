@@ -12,12 +12,19 @@ public class Parser {
 	
 	public Parser(){}
 	
-	public void tweetsParsing(String rawTweets, String tweetsParsed) throws IOException {
+	
+	/**
+	 * @param rawTweets file dei tweets fixati con la query bash in preProcessing.
+	 * Devono iniziare con lo userID.
+	 * @param fileOutput tweets puliti da parole lunghe 1, emoticon, link ...
+	 * @throws IOException
+	 */
+	public void tweetsParsing(String rawTweets, String fileOutput) throws IOException {
 		
 		FileReader input = new FileReader(rawTweets);
 		BufferedReader bufRead = new BufferedReader(input);
 
-		File out1 = new File(tweetsParsed);
+		File out1 = new File(fileOutput);
 		FileWriter fw1 = new FileWriter(out1,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 

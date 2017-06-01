@@ -3,7 +3,9 @@ package parsing;
 public class PreProcessing {
 	public static void main( String[] args ) throws Exception {
 		
+		//CREA TWEET FIXED
 		//cat training_set_tweets.txt | egrep '^[0-9]+[^\\S]' > training_set_tweets_fixed.txt
+		
 		String rawTweets= "resources/training_set_tweets_fixed.txt";
 		String tweetsParsed ="resources/tweet_parsati.txt";
 		
@@ -11,7 +13,9 @@ public class PreProcessing {
 		
 		p.tweetsParsing(rawTweets, tweetsParsed);
 		
+		//CREA OCCUR CITY
 		//cut -f 2 training_set_users.txt | sort  | uniq -c | sed "s/^[ \t]*//" > occur_city.txt
+		
 		String rawUser2City = "resources/training_set_users.txt";
 		String occurCity = "resources/occur_city.txt";
 		String user2cityCleaned = "resources/user2city.txt";
@@ -23,6 +27,6 @@ public class PreProcessing {
 		Location2Text c2t = new Location2Text();
 		
 		String city2text = "resources/city2text.txt";
-		c2t.userJoinCity(user2cityCleaned, city2text, tweetsParsed);
+		c2t.userJoinLocation(user2cityCleaned, city2text, tweetsParsed);
 	}
 }
