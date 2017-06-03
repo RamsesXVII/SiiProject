@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import tfIdfUtility.CityToCount;
-import tfIdfUtility.MySQLAccess;
 import tfIdfUtility.WordToCount;
 
 /*
@@ -28,7 +27,7 @@ public class TermFrequencyCalcToTest {
 		HashMap<String,HashMap<String,Double>>word2cityTfIdf=new HashMap<String,HashMap<String,Double>>();
 		Set<String> words=words2citiesToCount.keySet();
 		for(String word :words){
-		//	System.out.println("parola "+word);
+
 			Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
 			int numberOfCitiesByTerm=cities2Count.size();
 			for(CityToCount city:cities2Count){
@@ -36,11 +35,10 @@ public class TermFrequencyCalcToTest {
 				
 				int numberOfOccurrencies=city.getCount();
 				double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
-		//		HashMap<String,Double>cityToIdf=new HashMap<>();
-			//	cityToIdf.put(city.getCity(),new Double(tfIdf), new Double(tfIdf));
-			//	word2cityTfIdf.put(word,cityToIdf);
+
+
 				insertItem(word,city.getCity(),new Double(tfIdf), word2cityTfIdf);
-			//	mAccess.peristIdf(word,city.getCity(),tfIdf);
+
 			}
 		}
 		return word2cityTfIdf;

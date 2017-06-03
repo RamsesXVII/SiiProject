@@ -22,13 +22,11 @@ public class Main {
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 		BufferedReader br = new BufferedReader(new FileReader("resources/position2Tweet.txt"));
 		String line;
-		int i=0;
 		while ((line = br.readLine()) != null) {
 			String[] splitted = line.split(separator);
 			String tweet = splitted[1];
 			double[] testPosition=getPosition(splitted[0]);
 			writeBestGuessed(teller,tweet,testPosition,bw1);
-			i++;
 		}
 
 		bw1.close();
@@ -43,13 +41,12 @@ public class Main {
 		List<City2Score> best3Cities= new LinkedList<City2Score>();
 		best3Cities=teller.guessTweetPositionList(tweet);
 		Map<String, Map<String, Double>> myWordMap = teller.getMyWordMap();
-		int i=0;
 		//System.out.println("tweet corrente: "+tweet);
 		bw.write(tweet+"\n");
 		bw.flush();
 		if(best3Cities!=null){
 			for(City2Score city: best3Cities){
-				i++;
+
 				double distance = 40000;	//defualt distance 
 				double[] guessedPos=city.findCoordinate();
 				if(guessedPos!=null){
