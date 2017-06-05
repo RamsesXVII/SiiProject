@@ -27,6 +27,7 @@ public class CityToCoordinatesExpertTest {
 		try (BufferedReader br = new BufferedReader(new FileReader(this.pathToFileUsCity2Coordinates))) {
 			String line;
 			while ((line = br.readLine()) != null) {
+
 				String[] splittedLine= line.split(";");
 				String city=splittedLine[1];
 				String state=splittedLine[2];
@@ -36,27 +37,34 @@ public class CityToCoordinatesExpertTest {
 				String city2state= city+ ", " + state;
 				String latitudeToLongitude=latitude+"$"+longitude;
 
+				this.city2Coordinates.put(city2state.replaceAll("\\s+", ""), latitudeToLongitude);
 
-				this.city2Coordinates.put(city2state, latitudeToLongitude);
 			}
+
 		}
 	}
 
 	public TreeMap<String,String> getCity2Coordinates(){
 		return this.city2Coordinates;
 	}
-	
+
 	public String getCoordinate(String city){
+		city=city.replaceAll("\\s+", "");
 		if(this.city2Coordinates.containsKey(city))
 			return city2Coordinates.get(city);
 		else{
+			System.out.print("non ho a disposizione i dati di ");
+			System.out.print(city);
+			System.out.println(" interrogo google geocoder");
+
 			double[] coordinates=FunzioneFocusDispersione.getLatLngForAddr(city);
 			String lat=coordinates[0]+"";
 			String lng=coordinates[1]+"";
+
 			this.city2Coordinates.put(city, lat+"$"+lng);
 		}
 		return city2Coordinates.get(city);
-		
+
 	}
 	/**
 	 * Upload the list of city to convert (just to a preliminare test to have an idea of how may city-coordinates links are not 
@@ -76,5 +84,5 @@ public class CityToCoordinatesExpertTest {
 		return cityToConvert;
 
 	}
-	
+
 }

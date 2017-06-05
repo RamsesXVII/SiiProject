@@ -20,7 +20,7 @@ public class main {
 		System.out.println("****************************");
 
 		TermFrequencyCalculator tfCalc= new TermFrequencyCalculator(words2citiesToCount, cities2wordsToCount);
-		HashMap<String,HashMap<String,Double>>word2cityTfIdf=tfCalc.getTfIdfMap();
+		HashMap<String,HashMap<String,Double>>word2cityTfIdf=tfCalc.getAndPersistTfIdfMap();
 		
 		
 		System.out.println("****************************");

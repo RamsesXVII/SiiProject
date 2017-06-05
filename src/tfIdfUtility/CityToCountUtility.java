@@ -10,9 +10,12 @@ import java.util.Set;
 
 public class CityToCountUtility {
 	private HashMap<String, HashSet<CityToCount>> wordToCityCount;
+	private CityToCoordinatesExpert cityExpert;
 
-	public CityToCountUtility(){
+	public CityToCountUtility() throws FileNotFoundException, IOException{
 		this.wordToCityCount=new HashMap<String, HashSet<CityToCount>>();
+		this.cityExpert= new CityToCoordinatesExpert("datasetFromStream/usCity2Coordinates.csv");
+		this.cityExpert.computeCity2Coordinates();
 	}
 
 	/**
@@ -61,13 +64,15 @@ public class CityToCountUtility {
 					System.out.println(counter);
 
 				String[]splittedLine=line.split("\\|EndOfCityID\\|");
-				//System.out.println(splittedLine);
+
 				String city=splittedLine[0];
 				String[] splittedTweet=splittedLine[1].split("\\s+");
 
 				for(String tweet : splittedTweet)
-					if(tweet.length()>1)
-						this.addWordToCityCount(tweet.replaceAll("\\s+", ""), city.replaceAll("\\s+", ""));
+					if(tweet.length()>1){
+						String cityCoordinates=this.cityExpert.getCoordinate(city);
+						this.addWordToCityCount(tweet.replaceAll("\\s+", ""),cityCoordinates);
+					}
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("File non trovato, va nella cartella pi� esterna");

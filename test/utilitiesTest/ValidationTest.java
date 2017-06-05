@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class ValidationTest {
 
-	private static CityOfTweetsTellerTest teller;
+	private static CityOfTweetsExpertTest teller;
 	private static String tweetFromMilan="oi mona non fa il bischero";
 	private static String tweetFromRome="ao esiste un solo un capitano e se chiama Totti";
 
@@ -23,7 +23,7 @@ public class ValidationTest {
 	public static void setUp() throws Exception {
 		MySQLAccessTest msql = new MySQLAccessTest();
 		msql= new MySQLAccessTest();
-		teller= new  CityOfTweetsTellerTest();
+		teller= new  CityOfTweetsExpertTest();
 		BufferedReader br = new BufferedReader(new FileReader("test/mysqlTestGen.txt"));
 		String line;
 		while ((line = br.readLine()) != null) {

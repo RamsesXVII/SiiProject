@@ -26,11 +26,12 @@ public class TermFrequencyCalculator {
 		this.mAccess= new MySQLAccess();
 	}
 
-	public HashMap<String,HashMap<String,Double>> getTfIdfMap() throws SQLException {
+	public HashMap<String,HashMap<String,Double>> getAndPersistTfIdfMap() throws SQLException {
 
 		HashMap<String,HashMap<String,Double>>word2cityTfIdf=new HashMap<String,HashMap<String,Double>>();
 		Set<String> words=words2citiesToCount.keySet();
-		System.out.println("numero parole "+words.size()); ///questo
+		
+		System.out.println("numero parole "+words.size()); 
 		HashMap<String,Double> citiesToScore=new HashMap<>();
 		int counter=0;
 
@@ -39,7 +40,7 @@ public class TermFrequencyCalculator {
 			counter++;
 			if(counter%100000==0)
 				System.out.println(counter);
-			//	System.out.println("parola "+word);
+
 			Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
 			int numberOfCitiesByTerm=cities2Count.size();
 			for(CityToCount city:cities2Count){

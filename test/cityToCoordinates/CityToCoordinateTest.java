@@ -30,13 +30,13 @@ public class CityToCoordinateTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.newYorkNY= new String("New York, NY");
+		this.newYorkNY= new String("NewYork,NY");
 		this.newYorkCoordinates= new String("40.7141667$-74.0063889");
 		
-		this.losAngelesCA=new String("Los Angeles, CA");
+		this.losAngelesCA=new String("LosAngeles,CA");
 		this.laCoordinates=new String("34.0522222$-118.2427778");
 
-		this.pasadenaCA=new String("Pasadena, CA");
+		this.pasadenaCA=new String("Pasadena,CA");
 		this.pasadenaCoordinates=new String("34.1477778$-118.1436111");
 		
 		this.cExpert= new CityToCoordinatesExpertTest(pathToFileUsCity2Coordinates,city2CoordinatesToConvert);
@@ -61,6 +61,13 @@ public class CityToCoordinateTest {
 		assertEquals(new String("35.6894875$139.6917064"), this.cExpert.getCoordinate("Tokyo"));
 
 		
+	}
+	
+	@Test
+	public void showCityNotPresent() throws FileNotFoundException, IOException {
+		CityToCoordinatesExpertTest cityExpert= new CityToCoordinatesExpertTest(pathToFileUsCity2Coordinates, this.city2CoordinatesToConvert);
+		cityExpert.computeCity2Coordinates();
+				
 	}
 
 	

@@ -21,7 +21,7 @@ public class CityToCoordinatesExpert {
 	private TreeMap<String,String> city2Coordinates;
 	private int requestCounter=0;
 
-	public CityToCoordinatesExpert(String pathToFileUsCity2Coordinates,String pathToFileCityToConvert) {
+	public CityToCoordinatesExpert(String pathToFileUsCity2Coordinates) {
 		this.pathToFileUsCity2Coordinates=pathToFileUsCity2Coordinates;
 		this.city2Coordinates= new TreeMap<>();
 
@@ -32,7 +32,8 @@ public class CityToCoordinatesExpert {
 	 * city2Coordinates map in the form of city->lat$long.
 	 * Example of record in the file is:
 	 * pasadena;Pasadena;CA;34.1477778;-118.1436111
-	 * @throws FileNotFoundException
+	 * Example of record in the map is:
+	 * Pasadena,CA->34.1477778$-118.1436111
 	 * @throws IOException
 	 */
 	public void computeCity2Coordinates() throws FileNotFoundException, IOException {
@@ -57,8 +58,8 @@ public class CityToCoordinatesExpert {
 	public TreeMap<String,String> getCity2Coordinates(){
 		return this.city2Coordinates;
 	}
-	
-	
+
+
 	/**
 	 * After having filled the map with city-coordinates links present into datasetFromStrem/usCity2coordinates.csv
 	 * it's possibile to perform a get on the map. If the city is not found it's performed a request to google geocoder.
@@ -70,6 +71,7 @@ public class CityToCoordinatesExpert {
 		if(this.city2Coordinates.containsKey(city))
 			return city2Coordinates.get(city);
 		else{
+			
 			double[] coordinates=FunzioneFocusDispersione.getLatLngForAddr(city);
 			String lat=coordinates[0]+"";
 			String lng=coordinates[1]+"";
@@ -80,6 +82,6 @@ public class CityToCoordinatesExpert {
 			}
 		}
 		return city2Coordinates.get(city);
-		
+
 	}
 }

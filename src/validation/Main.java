@@ -14,7 +14,7 @@ import java.util.Map;
 public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException{
-		CityOfTweetsTeller teller= new CityOfTweetsTeller();
+		CityOfTweetsExpert teller= new CityOfTweetsExpert();
 		String separator="\\|EndOfCityID\\|   ";
 
 		File out = new File("resources/distAvg.txt");
@@ -35,7 +35,7 @@ public class Main {
 
 	}
 	//le stampe andranno rimosse dopo che avremo debbugato
-	public static void writeBestGuessed(CityOfTweetsTeller teller,String tweet,double[] tweetPos, BufferedWriter bw)
+	public static void writeBestGuessed(CityOfTweetsExpert teller,String tweet,double[] tweetPos, BufferedWriter bw)
 			throws ClassNotFoundException, SQLException, IOException{
 
 		List<City2Score> best3Cities= new LinkedList<City2Score>();
