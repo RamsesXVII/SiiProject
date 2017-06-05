@@ -1,5 +1,0 @@
-Roma |EndOfCityID| ao che bella giornata
-Roma |EndOfCityID| proprio una giornata fantastica
-Milano |EndOfCityID| bella zio
-Milano |EndOfCityID| bella emozione zio
-Milano |EndOfCityID| zio tutto bene
