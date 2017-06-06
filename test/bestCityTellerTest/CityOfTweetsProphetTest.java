@@ -1,4 +1,4 @@
-package utilitiesTest;
+package bestCityTellerTest;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,10 +7,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import bestCityTellerTest.MySQLAccessTest;
 import validation.City2Score;
 
-public class CityOfTweetsExpertTest {
+public class CityOfTweetsProphetTest {
 	private String currentTweet;
 	private Set<City2Score> candidateCities;
 

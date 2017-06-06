@@ -13,12 +13,14 @@ public class CityOfTweetsExpert {
 	private String currentTweet;
 	private Set<City2Score> candidateCities;
 	private Map<String, Map<String, Double>> myWordMap;
+	private int K_BEST;
 
 
 
 
-	public CityOfTweetsExpert() throws ClassNotFoundException, SQLException{
+	public CityOfTweetsExpert(int k) throws ClassNotFoundException, SQLException{
 		MySQLAccess mysql= new MySQLAccess();
+		this.K_BEST=k;
 		System.out.println("inizio popolazione mappa");
 		myWordMap = mysql.populateWordMap();
 		System.out.println("finito popolazione mappa");
@@ -78,7 +80,7 @@ public class CityOfTweetsExpert {
 		if(this.candidateCities!=null && this.candidateCities.size()>0){
 			List<City2Score> toReturn = new LinkedList<City2Score>();
 			this.candidateCities.stream().forEach(e->toReturn.add(e));
-			return toReturn.subList(0, Math.min(toReturn.size(),3));
+			return toReturn.subList(0, Math.min(toReturn.size(),this.K_BEST));
 			
 		}
 		else return null;

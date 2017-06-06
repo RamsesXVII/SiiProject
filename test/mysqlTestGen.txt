@@ -1,16 +1,11 @@
-create table testTable	(word char(255),city char(255),state char(255),tfidf decimal(20,19));
-insert	into	testTable	(word,city,state,tfidf)	values	('bischero','Firenze','IT','2.2');
-insert	into	testTable	(word,city,state,tfidf)	values	('bischero','Roma','IT','0.2');
-insert	into	testTable	(word,city,state,tfidf)	values	('bischero','Milano','IT','0.1');
-insert	into	testTable	(word,city,state,tfidf)	values	('fiorentina','Firenze','IT','1.8');
-insert	into	testTable	(word,city,state,tfidf)	values	('fiorentina','Palermo','IT','0.3');
-insert	into	testTable	(word,city,state,tfidf)	values	('mona','Milano','IT','3');
-insert	into	testTable	(word,city,state,tfidf)	values	('aperitivo','Milano','IT','3');
-insert	into	testTable	(word,city,state,tfidf)	values	('ao','Roma','IT','6');
-insert	into	testTable	(word,city,state,tfidf)	values	('tacci','Roma','IT','2.2');
-insert	into	testTable	(word,city,state,tfidf)	values	('totti','Roma','IT','3.5');
-insert	into	testTable	(word,city,state,tfidf)	values	('totti','Milano','IT','1.5');
-insert	into	testTable	(word,city,state,tfidf)	values	('mizzica','Palermo','IT','3.5');
-insert	into	testTable	(word,city,state,tfidf)	values	('arancino','Palermo','IT','3.5');
-insert	into	testTable	(word,city,state,tfidf)	values	('bono','Roma','IT','4.1');
-						
+create table testTable	(word char(255),city char(255), tfidf decimal(20,19));
+
+insert	into	testTable	(word,city,tfidf)	values	('mona','45.4627124$9.1076927','0.1000697119523969489')
+insert	into	testTable	(word,city,tfidf)	values	('frizzante','45.4627124$9.1076927','0.25003191022197805161')
+insert	into	testTable	(word,city,tfidf)	values	('aperitivo','45.4627124$9.1076927','0.0000457377829511276')
+insert	into	testTable	(word,city,tfidf)	values	('ao','41.909986$12.39591493','0.0034103990074242150')
+insert	into	testTable	(word,city,tfidf)	values	('totti','41.909986$12.39591493','0.0016591997680410783')
+insert	into	testTable	(word,city,tfidf)	values	('avoja','41.909986$12.39591493','0.0001082743917572096')
+insert	into	testTable	(word,city,tfidf)	values	('michelangelo','43.7799368$11.1709283','0.0289045292924314630')
+insert	into	testTable	(word,city,tfidf)	values	('bellino','43.7799368$11.1709283','0.0001587318980658878')
+insert	into	testTable	(word,city,tfidf)	values	('fiorentina','43.7799368$11.1709283','0.0001869289628057730')

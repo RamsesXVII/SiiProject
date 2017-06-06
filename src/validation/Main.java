@@ -12,23 +12,46 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+	final static int K=5;
+	static int entroi100=0;
+	static List<Double> distances;
+	static double accuracy = 0;
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException{
-		CityOfTweetsExpert teller= new CityOfTweetsExpert();
+
+		CityOfTweetsExpert teller= new CityOfTweetsExpert(K);
 		String separator="\\|EndOfCityID\\|   ";
+		distances= new LinkedList<Double>();
 
 		File out = new File("resources/distAvg.txt");
 		FileWriter fw1 = new FileWriter(out,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
 		BufferedReader br = new BufferedReader(new FileReader("resources/position2Tweet.txt"));
 		String line;
-		while ((line = br.readLine()) != null) {
-			String[] splitted = line.split(separator);
-			String tweet = splitted[1];
-			double[] testPosition=getPosition(splitted[0]);
-			writeBestGuessed(teller,tweet,testPosition,bw1);
-		}
+		int i =0;
+		try{
+			while ((line = br.readLine()) != null) {
+				String[] splitted = line.split(separator);
+				String tweet = splitted[1];
+				double[] testPosition=getPosition(splitted[0]);
+				writeBestGuessed(teller,tweet,testPosition,bw1);
+				i++;
+			}}catch(Exception e){
+				System.out.println("malformattato");
+				accuracy=accuracy-1;
+			}
 
+		accuracy= accuracy/ i;
+		String output = "accuratezza con "+i+": "+ accuracy;
+		System.out.println(accuracy);
+		bw1.write(output+"\n");
+		bw1.flush();
+
+
+
+		System.out.println("entro i 100km ne becco: " +entroi100);
+		Double media= distances.stream().mapToDouble((x)->x).average().getAsDouble();
+		System.out.println("la media e "+ media);
 		bw1.close();
 		br.close();
 
@@ -45,17 +68,27 @@ public class Main {
 		bw.write(tweet+"\n");
 		bw.flush();
 		if(best3Cities!=null){
+
 			for(City2Score city: best3Cities){
 
-				double distance = 40000;	//defualt distance 
+
 				double[] guessedPos=city.findCoordinate();
+
 				if(guessedPos!=null){
-					distance=distance(tweetPos[0],tweetPos[1], guessedPos[0], guessedPos[1],"K");
-					String output = "testP: "+tweetPos[0]+","+tweetPos[1]+" guessP: "
-							+ guessedPos[0]+","+guessedPos[1]+" distance: "+distance;
+					double distance=distance(tweetPos[0],tweetPos[1], guessedPos[0], guessedPos[1],"K");
+					//String output = "testP: "+tweetPos[0]+","+tweetPos[1]+" guessP: "
+					//		+ guessedPos[0]+","+guessedPos[1]+" distance: "+distance;
+					String output = "- distance: "+distance;
+					distances.add(distance);
 					bw.write(output+"\n");
 					bw.flush();
+					if(distance<100){
+						accuracy=accuracy+1.0;
+						entroi100++;
+					}
 				}
+
+
 				//System.out.println(i+" "+city.toString()+":: ");
 				for(String word: tweet.split(" ")){
 					if(myWordMap.containsKey(word)){
@@ -66,6 +99,7 @@ public class Main {
 				}
 				//System.out.println("\n distanza:"+distance+"\n");
 			}
+
 			//System.out.println("");
 		}
 		bw.write("\n");
