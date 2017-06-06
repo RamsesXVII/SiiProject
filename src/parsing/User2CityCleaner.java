@@ -15,9 +15,9 @@ public class User2CityCleaner {
 	public User2CityCleaner(){}
 	
 	/**
-	 * @param rawUser2City file della forma UserId \tab Citt√†
-	 * @param fileOutput file della forma UserID |EndOfUserID| Citt√† migliorato
-	 * @param occurCity file con occorrenze delle citt√† creato dalla query bash in preProcessing
+	 * @param rawUser2City file della forma UserId \tab Citt‡
+	 * @param fileOutput file della forma UserID |EndOfUserID| Citt‡ migliorato
+	 * @param occurCity file con occorrenze delle citt‡ creato dalla query bash in preProcessing
 	 * @throws IOException
 	 */
 	public void userCleaning(String rawUser2City, String fileOutput, String occurCity) throws IOException{
@@ -50,7 +50,6 @@ public class User2CityCleaner {
 			}
 
 			bw1.write(idUser+"|EndOfUserID|"+location+"\n");
-			currentLine=lines.readLine();
 		}
 
 		bw1.flush();
