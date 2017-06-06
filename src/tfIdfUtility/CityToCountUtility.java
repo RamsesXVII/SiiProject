@@ -56,10 +56,13 @@ public class CityToCountUtility {
 	 */
 	public void addItemsFromFile(String pathToFile){
 		int counter=0;
+		
 		try (BufferedReader br = new BufferedReader(new FileReader(pathToFile))) {
 			String line;
+			
 			while ((line = br.readLine()) != null) {
 				counter++;
+				
 				if(counter%100000==0)
 					System.out.println(counter);
 
@@ -75,7 +78,7 @@ public class CityToCountUtility {
 					}
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("File non trovato, va nella cartella pi� esterna");
+			System.out.println("File non trovato, va nella cartella piu' esterna");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -64,7 +64,7 @@ public class City2Score implements Comparable<City2Score> {
 	}
 	
 	public double[] findCoordinate() {
-		String[] split = this.getCity().split(",");
+		String[] split = this.getCity().split("$");
 		this.cityLatLng[0]=new Double(split[0]);
 		this.cityLatLng[1]=new Double(split[1]);
 		return this.cityLatLng;

@@ -29,7 +29,6 @@ public class tfIdfCalcTest {
 		cUtility=new CityToCountUtility();
 		cUtility.addItemsFromFile("test/testIdf.txt");
 		
-		System.out.println(cUtility.getWordToCityCount());
 		this.words2citiesToCount=cUtility.getWordToCityCount();
 		this.cities2wordsToCount=cUtility.convertToCitiesToWords(words2citiesToCount);
 		this.tfCalc= new TermFrequencyCalcToTest(words2citiesToCount, cities2wordsToCount);

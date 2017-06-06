@@ -29,7 +29,7 @@ public class PreProcessing {
 		String city2text = "resources/city2text.txt";
 		c2t.userJoinLocation(user2cityCleaned, city2text, tweetsParsed);
 		
-		//cat test_set_tweets.txt | egrep '^[0-9]+[^\\S]'> test_set_tweets_clean.txt
+		//cat test_set_tweets.txt | egrep --text '^[0-9]+[^\\S]'> test_set_tweets_clean.txt
 		//con sublime aggiungi uendofuser al posto della tav in testsetuser
 		String testSet= "resources/test_set_tweets_clean.txt";
 		String testSetParsato ="resources/test_set_tweets_parsati.txt";

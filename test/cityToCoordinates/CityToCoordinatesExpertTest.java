@@ -49,9 +49,12 @@ public class CityToCoordinatesExpertTest {
 	}
 
 	public String getCoordinate(String city){
+
 		city=city.replaceAll("\\s+", "");
+
 		if(this.city2Coordinates.containsKey(city))
 			return city2Coordinates.get(city);
+
 		else{
 			System.out.print("non ho a disposizione i dati di ");
 			System.out.print(city);

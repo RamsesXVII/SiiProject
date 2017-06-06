@@ -13,7 +13,7 @@ public class mainCity2Coordinates {
 		
 		
 		CityToCountUtility cUtility=new CityToCountUtility();
-		cUtility.addItemsFromFile("city2text.txt"); //qui va city to text
+		cUtility.addItemsFromFile("resources/city2text.txt"); //qui va city to text
 		
 		HashMap<String, HashSet<CityToCount>>  words2citiesToCount=cUtility.getWordToCityCount();
 		System.out.println("****************************");

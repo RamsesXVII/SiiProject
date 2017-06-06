@@ -40,18 +40,20 @@ public class CityToCoordinatesExpert {
 		try (BufferedReader br = new BufferedReader(new FileReader(this.pathToFileUsCity2Coordinates))) {
 			String line;
 			while ((line = br.readLine()) != null) {
+
 				String[] splittedLine= line.split(";");
-				String city=splittedLine[1];
-				String state=splittedLine[2];
+				String city=splittedLine[1].replaceAll("\\s+", "").toLowerCase();
+				String state=splittedLine[2].replaceAll("\\s+", "").toLowerCase();
 				String latitude=splittedLine[3];
 				String longitude=splittedLine[4];
 
-				String city2state= city+ ", " + state;
+				String city2state= city+ "," + state;
 				String latitudeToLongitude=latitude+"$"+longitude;
 
-
 				this.city2Coordinates.put(city2state, latitudeToLongitude);
+
 			}
+
 		}
 	}
 
@@ -68,18 +70,24 @@ public class CityToCoordinatesExpert {
 	 * @return
 	 */
 	public String getCoordinate(String city){
-		if(this.city2Coordinates.containsKey(city))
+
+		city=city.replaceAll("\\s+", "").toLowerCase();
+
+		if(this.city2Coordinates.containsKey(city)){
 			return city2Coordinates.get(city);
+		}
+
 		else{
-			
+			System.out.println(" non ci sta");
+			System.out.print("non ho a disposizione i dati di ");
+			System.out.print(city);
+			System.out.println(" interrogo google geocoder");
+
 			double[] coordinates=FunzioneFocusDispersione.getLatLngForAddr(city);
 			String lat=coordinates[0]+"";
 			String lng=coordinates[1]+"";
+
 			this.city2Coordinates.put(city, lat+"$"+lng);
-			this.requestCounter++;
-			if(requestCounter%10==0){
-				System.out.println("WARNING: REQUESTS TO GOOGLE API ARE: "+ requestCounter);
-			}
 		}
 		return city2Coordinates.get(city);
 
