@@ -40,18 +40,18 @@ public class PreProcessing {
 		System.out.println("****** INIZIO JOIN ******");
 		c2t.userJoinLocation(user2cityCleaned, city2text, tweetsParsed);
 		
-		
-		System.out.println("------ TEST SET ------");
-		
-		String testSet= "resources/test_set_tweets_fixed.txt";
-		String testSetParsato ="resources/test_set_tweets_parsati.txt";
-		String usersSetTest = "resources/test_set_users.txt";
-		String position2Tweet = "resources/position2Tweet.txt";
-		
-		System.out.println("****** INIZIO PARSER ******");
-		p.tweetsParsing(testSet, testSetParsato);
-		
-		System.out.println("****** INIZIO JOIN ******");
-		c2t.userJoinLocation(usersSetTest,position2Tweet, testSetParsato);
+//		
+//		System.out.println("------ TEST SET ------");
+//		
+//		String testSet= "resources/test_set_tweets_fixed.txt";
+//		String testSetParsato ="resources/test_set_tweets_parsati.txt";
+//		String usersSetTest = "resources/test_set_users.txt";
+//		String position2Tweet = "resources/position2Tweet.txt";
+//		
+//		System.out.println("****** INIZIO PARSER ******");
+//		p.tweetsParsing(testSet, testSetParsato);
+//		
+//		System.out.println("****** INIZIO JOIN ******");
+//		c2t.userJoinLocation(usersSetTest,position2Tweet, testSetParsato);
 	}
 }

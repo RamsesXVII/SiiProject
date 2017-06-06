@@ -11,7 +11,7 @@ public class main {
 
 		
 		CityToCountUtility cUtility=new CityToCountUtility();
-		cUtility.addItemsFromFile("resources/iodice.txt");
+		cUtility.addItemsFromFile("resources/city2text.txt");
 		
 		HashMap<String, HashSet<CityToCount>>  words2citiesToCount=cUtility.getWordToCityCount();
 		System.out.println("****************************");

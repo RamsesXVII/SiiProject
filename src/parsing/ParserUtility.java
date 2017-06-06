@@ -1,16 +1,32 @@
 package parsing;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 
 public class ParserUtility {
 	private String[] notWords={"@","#","http:","ftp:","https:","mailto:",".com",".edu","www."};
 	private HashSet<String> notWordsSet;
+	private HashSet<String> stopWordSet;
 
-	public ParserUtility(){
+	public ParserUtility() throws IOException{
 		this.notWordsSet=new HashSet<>();
 
 		for(String word : notWords)
 			notWordsSet.add(word);
+		
+		this.stopWordSet = new HashSet<>();
+		
+		FileReader input = new FileReader("dictionary/stopWords.txt");
+		BufferedReader bufRead = new BufferedReader(input);
+		
+		String linea = null;
+		while ((linea = bufRead.readLine())!=null){
+			this.stopWordSet.add(linea);
+		}
+		
+		bufRead.close();
 	}
 
 	/**
@@ -25,21 +41,23 @@ public class ParserUtility {
 		String cleanedText= "";
 		
 		for(int i=2;i<splittedString.length-2;i++){
-				boolean containsNotWords=false;
+				boolean validWord=true;
+				String word = splittedString[i].toLowerCase();
 
-				for(String notWord:notWordsSet){
-					if(splittedString[i].contains(notWord))
-						containsNotWords=true;
+				for(String notWord: this.notWordsSet){
+					if(word.contains(notWord))
+						validWord= false;
 				}
 
-				if(!containsNotWords){
-					splittedString[i]=splittedString[i].replaceAll("[^A-Za-z0-9\\-\\&\\' ]", "");
-					if(splittedString[i].contains("'"))
-						splittedString[i]= splittedString[i].replaceAll("'", "@");
-					if(!(splittedString[i].length()==1))
-						cleanedText= cleanedText + " " + splittedString[i].toLowerCase();
+				if(validWord){
+					word=word.replaceAll("[^A-Za-z0-9\\-\\&\\' ]", "");
+					if(word.contains("'"))
+						word= word.replaceAll("'", "@");
+					if(!(word.length()==1) && !(this.stopWordSet.contains(word)))
+						cleanedText= cleanedText + " " + word;
 				}
 			}
+		
 		if (!(cleanedText.equals("")))
 			 return cleanedID + cleanedText;
 		return null;
