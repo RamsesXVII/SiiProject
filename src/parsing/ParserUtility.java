@@ -53,7 +53,8 @@ public class ParserUtility {
 					word=word.replaceAll("[^A-Za-z0-9\\-\\&\\' ]", "");
 					if(word.contains("'"))
 						word= word.replaceAll("'", "@");
-					if(!(word.length()==1) && !(this.stopWordSet.contains(word)))
+					
+					if(!((word.length()==1) || (this.stopWordSet.contains(word)) || (word.matches("[\\-\\@\\&]+"))))
 						cleanedText= cleanedText + " " + word;
 				}
 			}

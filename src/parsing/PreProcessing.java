@@ -2,13 +2,13 @@ package parsing;
 
 public class PreProcessing {
 	//CREA TRAINING TWEETS FIXED
-	//cat training_set_tweets.txt | egrep --text '^[0-9]+[^\\S]' > training_set_tweets_fixed.txt
+	//cat training_set_tweets.txt | grep -P --text '^[0-9]+\t[0-9]' > training_set_tweets_fixed.txt
 	
 	//CREA OCCUR CITY
 	//cut -f 2 training_set_users.txt | sort  | uniq -c | sed "s/^[ \t]*//" > occur_city.txt
 	
 	//CREA TEST TWEETS FIXED
-	//cat test_set_tweets.txt | egrep --text '^[0-9]+[^\\S]'> test_set_tweets_fixed.txt
+	//cat test_set_tweets.txt | grep -P --text '^[0-9]+\t[0-9]' > test_set_tweets_fixed.txt
 	
 	//MODIFICA TEST SET USER
 	//con sublime aggiungi |EndOfUserID| al posto della tab in test_set_user
@@ -39,19 +39,18 @@ public class PreProcessing {
 		
 		System.out.println("****** INIZIO JOIN ******");
 		c2t.userJoinLocation(user2cityCleaned, city2text, tweetsParsed);
+				
+		System.out.println("------ TEST SET ------");
 		
-//		
-//		System.out.println("------ TEST SET ------");
-//		
-//		String testSet= "resources/test_set_tweets_fixed.txt";
-//		String testSetParsato ="resources/test_set_tweets_parsati.txt";
-//		String usersSetTest = "resources/test_set_users.txt";
-//		String position2Tweet = "resources/position2Tweet.txt";
-//		
-//		System.out.println("****** INIZIO PARSER ******");
-//		p.tweetsParsing(testSet, testSetParsato);
-//		
-//		System.out.println("****** INIZIO JOIN ******");
-//		c2t.userJoinLocation(usersSetTest,position2Tweet, testSetParsato);
+		String testSet= "resources/test_set_tweets_fixed.txt";
+		String testSetParsato ="resources/test_set_tweets_parsati.txt";
+		String usersSetTest = "resources/test_set_users.txt";
+		String position2Tweet = "resources/position2Tweet.txt";
+		
+		System.out.println("****** INIZIO PARSER ******");
+		p.tweetsParsing(testSet, testSetParsato);
+		
+		System.out.println("****** INIZIO JOIN ******");
+		c2t.userJoinLocation(usersSetTest,position2Tweet, testSetParsato);
 	}
 }
