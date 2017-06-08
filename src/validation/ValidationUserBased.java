@@ -15,6 +15,10 @@ public class ValidationUserBased extends Validation{
 		super();
 	}
 
+	public ValidationUserBased(int k){
+		super(k);
+	}
+
 
 	@Override
 	public void writeBestCity(String outPath) throws IOException, ClassNotFoundException, SQLException{
