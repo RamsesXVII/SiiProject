@@ -41,10 +41,11 @@ public abstract class Validation {
 
 					String output = "distance: "+distance;
 					distances.add(distance);
-					bw.write(output+"\n");
-					bw.flush();
-					System.out.println(output);
+					//bw.write(output+"\n");
+					//bw.flush();
+					//System.out.println(output+" citta: "+city.getCity()+" score: "+city.getScore());
 					if(distance<toleranceDistance){
+						System.out.println("utente coordinate: "+tweetPos[0]+","+tweetPos[1]);
 						accuracy=accuracy+1.0;
 						bb++;
 						if(bb==1){
@@ -54,8 +55,8 @@ public abstract class Validation {
 				}
 				else{
 					System.out.println("nessuna parola classificate nel tweet \n");
-					bw.write("nessuna parola classificate nel tweet \n");
-					bw.flush();
+					//bw.write("nessuna parola classificate nel tweet \n");
+					//bw.flush();
 					break;
 				}
 

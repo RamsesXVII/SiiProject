@@ -42,8 +42,8 @@ public class ValidationUserBased extends Validation{
 			//accuracy= accuracy/numbTweet ;
 			String output = "azzeccati entro i 160 "+numbTweet+": "+ accuracy;
 			//System.out.println("accuracy: "+accuracy );
-			bw.write(output+"\n\n");
-			bw.flush();
+			//bw.write(output+"\n\n");
+			//bw.flush();
 			System.out.println("presi fin ora "+ entroi160 +" su "+counter);
 
 		}

@@ -1,4 +1,8 @@
 package validation;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +18,7 @@ public class CityOfTweetsExpert {
 	private Set<City2Score> candidateCities;
 	private Map<String, Map<String, Double>> myWordMap;
 	private int K_BEST;
+	private TreeSet<String> mostFrequencyWord;
 
 
 
@@ -24,6 +29,29 @@ public class CityOfTweetsExpert {
 		System.out.println("inizio popolazione mappa");
 		myWordMap = mysql.populateWordMap();
 		System.out.println("finito popolazione mappa");
+		populateMostFrequencyWord();
+
+	}
+
+	private void populateMostFrequencyWord() {
+		this.mostFrequencyWord= new TreeSet<String>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader("resources/parole.txt"))) {
+			String line;
+
+			while ((line = br.readLine()) != null) {
+				line=line.replaceAll("\\s+", "");
+				this.mostFrequencyWord.add(line);
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File non trovato, va nella cartella piu' esterna");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+
 
 	}
 
@@ -97,28 +125,7 @@ public class CityOfTweetsExpert {
 		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
 
 		for(String word: words){
-			Map<String, Double> map = myWordMap.get(word);
-			List<City2Score> currentCities= new LinkedList<City2Score>();
-			if(map!=null){
-				map.entrySet().forEach(e->currentCities.add(new City2Score(e.getKey(), e.getValue())));
-			}	
 
-			for(City2Score city:currentCities){
-				if(takenCity.containsKey(city.getCity())){
-					takenCity.get(city.getCity()).sumScore(city);
-				}else{
-					takenCity.put(city.getCity(), city);
-				}
-			}
-		}
-		this.candidateCities.addAll(takenCity.values());
-	}
-
-
-	private void guessThePossibleCities(String[] words) throws ClassNotFoundException, SQLException {
-		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
-
-		for(String word: words){
 			Map<String, Double> cityEScore = myWordMap.get(word);
 			if(cityEScore!=null){
 				for(String city: cityEScore.keySet()){
@@ -133,6 +140,28 @@ public class CityOfTweetsExpert {
 		this.candidateCities.addAll(takenCity.values());
 	}
 
+
+
+	private void guessThePossibleCities(String[] words) throws ClassNotFoundException, SQLException {
+		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
+
+		for(String word: words){
+			if(this.mostFrequencyWord.contains(word)){
+
+				Map<String, Double> cityEScore = myWordMap.get(word);
+				if(cityEScore!=null){
+					for(String city: cityEScore.keySet()){
+						City2Score currCityScore = new City2Score(city, cityEScore.get(city));
+						if(!takenCity.containsKey(city))
+							takenCity.put(city, currCityScore);
+						else
+							takenCity.get(city).sumScore(currCityScore);
+					}
+				}	
+			}
+		}
+		this.candidateCities.addAll(takenCity.values());
+	}
 
 
 
@@ -158,6 +187,14 @@ public class CityOfTweetsExpert {
 
 	public Map<String, Map<String, Double>> getMyWordMap() {
 		return myWordMap;
+	}
+
+	public TreeSet<String> getMostFrequencyWord() {
+		return mostFrequencyWord;
+	}
+
+	public void setMostFrequencyWord(TreeSet<String> mostFrequencyWord) {
+		this.mostFrequencyWord = mostFrequencyWord;
 	}
 
 
