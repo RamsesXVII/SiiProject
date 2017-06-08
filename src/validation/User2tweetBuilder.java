@@ -9,32 +9,56 @@ import java.util.TreeMap;
 
 public class User2tweetBuilder {
 
-	private String pathPosition2Tweet;
-	private String pathUser2Position;
 	private Map<String,String> user2tweet;
 	private Map <String,Integer> user2TweetsCount;
 	private Map<String,double[]> user2City;
-	private Map <String,Integer> user2TweetsCount2;
+	private String pathPosition2Tweet="resources/test_set_tweets_parsati.txt";
+	private String pathUser2Position="resources/test_set_users.txt";
 
 
 
 
-	public User2tweetBuilder(String pathPosition2Tweet){
-		this.pathPosition2Tweet=pathPosition2Tweet;
+	public User2tweetBuilder() throws IOException{
+		System.out.println("INIZIO ANALISI BASATA  SULL'UTENTE");
 		this.user2tweet=new TreeMap<>();
 		this.user2TweetsCount= new TreeMap<>();
+		createUserCityMap();
+	}
+
+	public User2tweetBuilder(int i) throws IOException{
+		System.out.println("INIZIO ANALISI BASATA SUL TWEET");
+		this.user2tweet=new TreeMap<>();
+		this.user2TweetsCount= new TreeMap<>();
+		createUserCityMap();
+		createUserTweetCount();
 
 	}
 
-	public User2tweetBuilder(String pathPosition2Tweet,String pathUser2Position) throws IOException{
-		this.pathPosition2Tweet=pathPosition2Tweet;
+
+	public User2tweetBuilder(String pathToTestFile) throws IOException {
+		this.pathPosition2Tweet=pathToTestFile;
 		this.user2tweet=new TreeMap<>();
 		this.user2TweetsCount= new TreeMap<>();
-		this.user2TweetsCount2= new TreeMap<>();
-		this.pathUser2Position= pathUser2Position;
 		createUserCityMap();
+	}
 
-
+	private void createUserTweetCount()  throws IOException{
+		BufferedReader br = new BufferedReader(new FileReader(this.pathPosition2Tweet));
+		String line;
+		while ((line = br.readLine()) != null) {
+			try{
+				String[] splitted = line.split("\\|EndOfUserID\\|");
+				String userID=splitted[0].replaceAll("\\s+", "");
+				if(this.user2TweetsCount.containsKey(userID)){
+					this.increment(userID);}
+				else{
+					this.user2TweetsCount.put(userID, 1);
+				}
+			}catch(Exception e){
+				System.out.println("malformattato");
+			}
+		}
+		br.close();
 
 	}
 
@@ -49,6 +73,7 @@ public class User2tweetBuilder {
 			try{
 				String[] split = line.split("\\|EndOfUserID\\|UT:");
 				String user = split[0];
+				user=user.replaceAll("\\s+", "");
 				String location = split[1];
 				if(!this.user2City.containsKey(user)){
 					String[] latlng = location.split(",");
@@ -56,9 +81,9 @@ public class User2tweetBuilder {
 					d[0]=new Double(latlng[0]);
 					d[1]=new Double(latlng[1]);
 					this.user2City.put(user, d);
-					this.user2TweetsCount2.put(user,1);
+					//this.user2TweetsCount2.put(user,1);
 				}else{
-					this.increment2(user);
+					//this.increment2(user);
 				}
 
 			}catch(Exception e){
@@ -70,7 +95,6 @@ public class User2tweetBuilder {
 	}
 
 	public void computerUser2tweet() throws IOException{
-
 
 		BufferedReader br = new BufferedReader(new FileReader(this.pathPosition2Tweet));
 		String line;
@@ -105,13 +129,7 @@ public class User2tweetBuilder {
 		this.user2TweetsCount.put(userID, currentCount);
 
 	}
-	
-	private void increment2(String userID) {
-		Integer currentCount=this.user2TweetsCount.get(userID);
-		currentCount++;
-		this.user2TweetsCount2.put(userID, currentCount);
 
-	}
 
 	public String getPathPosition2Tweet() {
 		return pathPosition2Tweet;
@@ -133,11 +151,7 @@ public class User2tweetBuilder {
 		return user2TweetsCount;
 	}
 
-	public Map<String, Integer> getUser2TweetsCount2() {
-		return user2TweetsCount2;
-	}
-	
-	
+
 	public void setUser2TweetsCount(Map<String, Integer> user2TweetsCount) {
 		this.user2TweetsCount = user2TweetsCount;
 	}

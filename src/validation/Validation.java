@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Validation {
 
@@ -37,10 +36,9 @@ public abstract class Validation {
 		best3Cities=teller.guessTweetPositionList(tweet);
 		//Map<String, Map<String, Double>> myWordMap = teller.getMyWordMap();
 
-		int bb=0;
+		int match=0;
 		if(best3Cities!=null){
 			for(City2Score city: best3Cities){
-
 				double[] guessedPos=city.findCoordinate();
 				if(guessedPos!=null && tweetPos!=null){
 
@@ -50,37 +48,21 @@ public abstract class Validation {
 					distances.add(distance);
 					//bw.write(output+"\n");
 					//bw.flush();
-					//System.out.println(output+" citta: "+city.getCity()+" score: "+city.getScore());
 					if(distance<toleranceDistance){
-						System.out.println("utente coordinate: "+tweetPos[0]+","+tweetPos[1]);
 						accuracy=accuracy+1.0;
-						bb++;
-						if(bb==1){
+						match++;
+						if(match==1){
 							entroi160++;
 						}
 					}
 				}
-				else{
-					System.out.println("nessuna parola classificate nel tweet \n");
-					//bw.write("nessuna parola classificate nel tweet \n");
-					//bw.flush();
-					break;
-				}
-
-				/*
-				//System.out.println(i+" "+city.toString()+":: ");
-				for(String word: tweet.split(" ")){
-					if(myWordMap.containsKey(word)){
-						Double scoreWordCity = myWordMap.get(word).get(city.getCity());
-						//System.out.print(word+ ":"+double1+" ");
-					}
-					//else{System.out.print(word+ ":nullParola ");}
-				}
-				//System.out.println("\n distanza:"+distance+"\n");*/
 			}
-
-			//System.out.println("");
+		}else{
+			//System.out.println("nessuna parola classificate nel tweet");
+			//bw.write("nessuna parola classificate nel tweet\n");
+			//bw.flush();
 		}
+
 	}
 
 

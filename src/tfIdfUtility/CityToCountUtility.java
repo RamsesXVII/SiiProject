@@ -74,6 +74,7 @@ public class CityToCountUtility {
 				if(counter%100000==0)
 					System.out.println(counter);
 
+
 				String[]splittedLine=line.split("\\|EndOfCityID\\| ");
 
 				String city=splittedLine[0];
@@ -81,8 +82,10 @@ public class CityToCountUtility {
 
 				for(String tweet : splittedTweet) 
 					if(this.mostFrequencyWord.contains(tweet)){
+						//System.out.println(tweet);
 						String cityCoordinates=this.cityExpert.getCoordinate(city);
-						this.addWordToCityCount(tweet.replaceAll("\\s+", ""),cityCoordinates);
+						String replaced = tweet.replaceAll("\\s+", "");
+						this.addWordToCityCount(replaced,cityCoordinates);
 					}
 			}
 		} catch (FileNotFoundException e) {

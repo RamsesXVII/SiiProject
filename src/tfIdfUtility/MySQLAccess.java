@@ -17,7 +17,10 @@ public class MySQLAccess {
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+	private String tableName="wordStopped";
 
+	
+	
 	public MySQLAccess() throws ClassNotFoundException, SQLException{
 		// This will load the MySQL driver, each DB has its own driver
 
@@ -29,7 +32,7 @@ public class MySQLAccess {
 
 	public Map<String, Map<String, Double>> populateWordMap() throws SQLException{
 		Map<String,Map<String,Double>> wordMap= new TreeMap<String, Map<String,Double>>();
-		preparedStatement = connect.prepareStatement("select word,city,tfidf from wordToCitytfIdf order by word");
+		preparedStatement = connect.prepareStatement("select word,city,tfidf from "+tableName+" order by word");
 		resultSet = preparedStatement.executeQuery();
 		String prevWord="";
 		String currentWord="";
@@ -75,7 +78,8 @@ public class MySQLAccess {
 	 */
 
 	public void persistfIdfFromMap1(String word, HashMap<String,Double> citiesToScore ) throws SQLException{
-		String query="INSERT INTO sii.wordToCitytfIdf (word,city,tfIdf) VALUES ";
+
+		String query="INSERT INTO sii."+tableName+" (word,city,tfIdf) VALUES ";
 		for(String city:citiesToScore.keySet())
 			query+="('"+word+"','"+city+"','"+citiesToScore.get(city)+"'), ";
 
@@ -87,7 +91,7 @@ public class MySQLAccess {
 	}
 
 	public void addUniqueWordsFromDB(HashSet<String> uniqWords) throws SQLException {
-		preparedStatement = connect.prepareStatement("select distinct word from wordtocitytfidf;");
+		preparedStatement = connect.prepareStatement("select distinct word from "+tableName+";");
 		resultSet = preparedStatement.executeQuery();
 		writeWordsResult(resultSet,uniqWords);
 

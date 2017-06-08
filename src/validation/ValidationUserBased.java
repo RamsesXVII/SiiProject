@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class ValidationUserBased extends Validation{
@@ -28,27 +26,25 @@ public class ValidationUserBased extends Validation{
 		BufferedWriter bw = new BufferedWriter(fw1);
 
 		CityOfTweetsExpert teller= new CityOfTweetsExpert(K);
-		User2tweetBuilder user2TweetB= new  User2tweetBuilder("resources/test_set_tweets_parsati.txt",
-				"resources/test_set_users.txt");
+		User2tweetBuilder user2TweetB= new  User2tweetBuilder();
 		Map<String, double[]> user2City = user2TweetB.getUser2City();
-
 		user2TweetB.computerUser2tweet();
+		
 		Map<String, String> user2tweet = user2TweetB.getUser2tweet();
 		int counter=0;
 		for(String user: user2tweet.keySet()){
 			counter++;
-			System.out.println("utente: "+user);
-			accuracy=0;
+			System.out.println("UserCorrente: "+user);
+			bw.write("UserCorrente: "+user);
 			String longTweet=user2tweet.get(user);
 			double[] tweetPos=user2City.get(user);
+			
 			super.writeBestGuessed(teller, longTweet, tweetPos, bw);
-			int numbTweet=user2TweetB.getUser2TweetsCount().get(user);
-			//accuracy= accuracy/numbTweet ;
-			String output = "azzeccati entro i 160 "+numbTweet+": "+ accuracy;
-			//System.out.println("accuracy: "+accuracy );
-			//bw.write(output+"\n\n");
-			//bw.flush();
-			System.out.println("presi fin ora "+ entroi160 +" su "+counter);
+			
+			String output = "a meno di 160km: "+ entroi160 +" su "+ counter;
+			bw.write(output+"\n\n");
+			bw.flush();
+			System.out.println(output+"\n");
 
 		}
 
