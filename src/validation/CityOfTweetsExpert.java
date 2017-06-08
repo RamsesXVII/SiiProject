@@ -1,4 +1,8 @@
 package validation;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +18,7 @@ public class CityOfTweetsExpert {
 	private Set<City2Score> candidateCities;
 	private Map<String, Map<String, Double>> myWordMap;
 	private int K_BEST;
+	private TreeSet<String> mostFrequencyWord;
 
 
 
@@ -24,15 +29,38 @@ public class CityOfTweetsExpert {
 		System.out.println("inizio popolazione mappa");
 		myWordMap = mysql.populateWordMap();
 		System.out.println("finito popolazione mappa");
+		populateMostFrequencyWord();
 
 	}
-	
-/**
- * @param tweet parsato
- * @return lista delle 3 citta piu probabili
- * @throws ClassNotFoundException
- * @throws SQLException
- */
+
+	private void populateMostFrequencyWord() {
+		this.mostFrequencyWord= new TreeSet<String>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader("resources/parole.txt"))) {
+			String line;
+
+			while ((line = br.readLine()) != null) {
+				line=line.replaceAll("\\s+", "");
+				this.mostFrequencyWord.add(line);
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File non trovato, va nella cartella piu' esterna");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+
+
+	}
+
+	/**
+	 * @param tweet parsato
+	 * @return lista delle 3 citta piu probabili
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public List<City2Score> guessTweetPositionList(String tweet) throws ClassNotFoundException, SQLException {
 		this.currentTweet=tweet;
 		this.candidateCities=new TreeSet<City2Score>();
@@ -42,13 +70,13 @@ public class CityOfTweetsExpert {
 
 	}
 
-/**
- * latitudine e longitudine della citta più probabile
- * @param tweet un Tweet parsato
- * @return coordinate LatLong 
- * @throws ClassNotFoundException
- * @throws SQLException
- */
+	/**
+	 * latitudine e longitudine della citta più probabile
+	 * @param tweet un Tweet parsato
+	 * @return coordinate LatLong 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 
 	public double[] guessTweetPosition(String tweet) throws ClassNotFoundException, SQLException{
 		this.currentTweet=tweet;
@@ -72,47 +100,69 @@ public class CityOfTweetsExpert {
 		else return null;
 	}
 
-/**
- * prende al massimo le 3 citta piu probabili da candidateCities
- * @return 3BestCities le 3 citta migliori per il tweet
- */
+	/**
+	 * prende al massimo le 3 citta piu probabili da candidateCities
+	 * @return 3BestCities le 3 citta migliori per il tweet
+	 */
 	private List<City2Score> getBestCityCoordinatesList(){
 		if(this.candidateCities!=null && this.candidateCities.size()>0){
 			List<City2Score> toReturn = new LinkedList<City2Score>();
 			this.candidateCities.stream().forEach(e->toReturn.add(e));
 			return toReturn.subList(0, Math.min(toReturn.size(),this.K_BEST));
-			
+
 		}
 		else return null;
 	}
 
 
-/**
- * popola candidateCities con le citta più adatte per le words passate
- * @param words le parole del tweet
- * @throws ClassNotFoundException
- * @throws SQLException
- */
+	/**
+	 * popola candidateCities con le citta più adatte per le words passate
+	 * @param words le parole del tweet
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void guessThePossibleCitiesOld(String[] words) throws ClassNotFoundException, SQLException {
+		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
+
+		for(String word: words){
+
+			Map<String, Double> cityEScore = myWordMap.get(word);
+			if(cityEScore!=null){
+				for(String city: cityEScore.keySet()){
+					City2Score currCityScore = new City2Score(city, cityEScore.get(city));
+					if(!takenCity.containsKey(city))
+						takenCity.put(city, currCityScore);
+					else
+						takenCity.get(city).sumScore(currCityScore);
+				}
+			}	
+		}
+		this.candidateCities.addAll(takenCity.values());
+	}
+
+
+
 	private void guessThePossibleCities(String[] words) throws ClassNotFoundException, SQLException {
 		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
 
 		for(String word: words){
-			Map<String, Double> map = myWordMap.get(word);
-			List<City2Score> currentCities= new LinkedList<City2Score>();
-			if(map!=null){
-				map.entrySet().forEach(e->currentCities.add(new City2Score(e.getKey(), e.getValue())));
-			}	
+			if(this.mostFrequencyWord.contains(word)){
 
-			for(City2Score city:currentCities){
-				if(takenCity.containsKey(city.getCity())){
-					takenCity.get(city.getCity()).sumScore(city);
-				}else{
-					takenCity.put(city.getCity(), city);
-				}
+				Map<String, Double> cityEScore = myWordMap.get(word);
+				if(cityEScore!=null){
+					for(String city: cityEScore.keySet()){
+						City2Score currCityScore = new City2Score(city, cityEScore.get(city));
+						if(!takenCity.containsKey(city))
+							takenCity.put(city, currCityScore);
+						else
+							takenCity.get(city).sumScore(currCityScore);
+					}
+				}	
 			}
 		}
 		this.candidateCities.addAll(takenCity.values());
 	}
+
 
 
 	public String getCurrentTweet() {
@@ -137,6 +187,14 @@ public class CityOfTweetsExpert {
 
 	public Map<String, Map<String, Double>> getMyWordMap() {
 		return myWordMap;
+	}
+
+	public TreeSet<String> getMostFrequencyWord() {
+		return mostFrequencyWord;
+	}
+
+	public void setMostFrequencyWord(TreeSet<String> mostFrequencyWord) {
+		this.mostFrequencyWord = mostFrequencyWord;
 	}
 
 
