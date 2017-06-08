@@ -9,7 +9,7 @@ import java.util.Map;
 
 public abstract class Validation {
 
-	final int K=5;
+	protected int K;
 	protected int entroi160;
 	protected List<Double> distances;
 	protected double accuracy = 0;
@@ -19,10 +19,17 @@ public abstract class Validation {
 	public abstract void writeBestCity(String outPath) throws ClassNotFoundException, SQLException, IOException;
 
 	public Validation(){
+		this.K=5;
 		this.distances=new LinkedList<Double>();
 		this.entroi160=0;
 	}
 
+
+	public Validation(int k2) {
+		this.K=k2;
+		this.distances=new LinkedList<Double>();
+		this.entroi160=0;
+	}
 
 	public void writeBestGuessed(CityOfTweetsExpert teller,String tweet,double[] tweetPos, BufferedWriter bw)
 			throws ClassNotFoundException, SQLException, IOException{
