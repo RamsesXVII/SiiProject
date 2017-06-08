@@ -116,8 +116,8 @@ public class CityToCountTest {
 	@Test
 	public void mapAddingTestFromFile() throws FileNotFoundException, IOException {
 		this.cUtility.addItemsFromFile("test/testTweets.txt");
-		assertEquals(cUtility.getWordToCityCount().keySet().size(),6);
-		
+		//NOTA BENE: ao, bella, che sono parole frequenti nei tweet americani
+		assertEquals(cUtility.getWordToCityCount().keySet().size(),3);
 	}
 	
 	@Test

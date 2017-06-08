@@ -20,9 +20,9 @@ public class validationAggregatedTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		this.pathToTestFile="resources/test20tweets1user.txt";
+		this.pathToTestFile="test/test20tweets1user.txt";
 		this.userTBuilder= new User2tweetBuilder(pathToTestFile);
-		this.userTBuilder2User=new User2tweetBuilder("resources/test20tweets2user.txt");
+		this.userTBuilder2User=new User2tweetBuilder("test/test20tweets2user.txt");
 		
 
 	}

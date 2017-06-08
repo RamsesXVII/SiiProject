@@ -21,7 +21,10 @@ public class CityOfTweetsExpert {
 	private TreeSet<String> mostFrequencyWord;
 
 
-
+	public CityOfTweetsExpert(){
+		this.populateMostFrequencyWord();
+		
+	}
 
 	public CityOfTweetsExpert(int k) throws ClassNotFoundException, SQLException{
 		MySQLAccess mysql= new MySQLAccess();
@@ -36,7 +39,7 @@ public class CityOfTweetsExpert {
 	private void populateMostFrequencyWord() {
 		this.mostFrequencyWord= new TreeSet<String>();
 
-		try (BufferedReader br = new BufferedReader(new FileReader("resources/parole.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("dictionary/parole.txt"))) {
 			String line;
 
 			while ((line = br.readLine()) != null) {

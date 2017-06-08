@@ -38,14 +38,14 @@ public class ValidationTest {
 	public void getCandidateCitiesTest() throws ClassNotFoundException, SQLException {
 		teller.guessThePossibleCities(tweetFromMilan.split(" "));
 		String result = teller.getCandidateCities().stream().findFirst().get().getCity().toString();
-		assertEquals("Milano,IT", result);
+		assertEquals("45.4627124$9.1076927", result);
 	}
 
 	@Test
 	public void getCandidateCities2Test() throws ClassNotFoundException, SQLException {
 		teller.guessThePossibleCities(tweetFromRome.split(" "));
 		String result = teller.getCandidateCities().stream().findFirst().get().getCity().toString();
-		assertEquals("Roma,IT", result);
+		assertEquals("41.909986$12.39591493", result);
 	}
 
 

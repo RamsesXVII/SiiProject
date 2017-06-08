@@ -7,15 +7,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+
+import validation.CityOfTweetsExpert;
 
 public class CityToCountUtility {
 	private HashMap<String, HashSet<CityToCount>> wordToCityCount;
 	private CityToCoordinatesExpert cityExpert;
+	private TreeSet<String> mostFrequencyWord;
+	private CityOfTweetsExpert cExpert;
 
+	
 	public CityToCountUtility() throws FileNotFoundException, IOException{
 		this.wordToCityCount=new HashMap<String, HashSet<CityToCount>>();
 		this.cityExpert= new CityToCoordinatesExpert("datasetFromStream/usCity2Coordinates.csv");
 		this.cityExpert.computeCity2Coordinates();
+		this.cExpert=new CityOfTweetsExpert();
+		this.mostFrequencyWord=cExpert.getMostFrequencyWord();
 	}
 
 	/**
@@ -66,13 +74,13 @@ public class CityToCountUtility {
 				if(counter%100000==0)
 					System.out.println(counter);
 
-				String[]splittedLine=line.split("\\|EndOfCityID\\|");
+				String[]splittedLine=line.split("\\|EndOfCityID\\| ");
 
 				String city=splittedLine[0];
 				String[] splittedTweet=splittedLine[1].split("\\s+");
 
-				for(String tweet : splittedTweet)
-					if(tweet.length()>1){
+				for(String tweet : splittedTweet) 
+					if(this.mostFrequencyWord.contains(tweet)){
 						String cityCoordinates=this.cityExpert.getCoordinate(city);
 						this.addWordToCityCount(tweet.replaceAll("\\s+", ""),cityCoordinates);
 					}
