@@ -32,7 +32,7 @@ public class ValidationTweetBased extends Validation{
 		File out = new File(outPath);
 		FileWriter fw1 = new FileWriter(out,true);
 		BufferedWriter bw1 = new BufferedWriter(fw1);
-		BufferedReader br = new BufferedReader(new FileReader("resources/test_set_tweets_parsati.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("resources/test_set_tweet_parsati_fixed.txt"));
 		User2tweetBuilder user2TweetB= new  User2tweetBuilder(0);
 		Map<String, double[]> user2City = user2TweetB.getUser2City();
 		Map<String, Integer> user2TweetsCount = user2TweetB.getUser2TweetsCount();

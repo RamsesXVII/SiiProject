@@ -1,29 +1,24 @@
 package parsing;
 
 public class PreProcessing {
-	//CREA TRAINING TWEETS FIXED
-	//cat training_set_tweets.txt | grep -P --text '^[0-9]+\t[0-9]' > training_set_tweets_fixed.txt
 	
 	//CREA OCCUR CITY
-	//cut -f 2 training_set_users.txt | sort  | uniq -c | sed "s/^[ \t]*//" > occur_city.txt
-	
-	//CREA TEST TWEETS FIXED
-	//cat test_set_tweets.txt | grep -P --text '^[0-9]+\t[0-9]' > test_set_tweets_fixed.txt
+	// cut -f 2 training_set_users.txt | sort  | uniq -c | sed "s/^[ \t]*//" > occur_city.txt
 	
 	//MODIFICA TEST SET USER
 	//con sublime aggiungi |EndOfUserID| al posto della tab in test_set_user
 	
+	//MODIFICA TRAINING TWEET PARSATI
+	// cat training_set_tweet_parsati.txt | sort | uniq > training_set_tweet_parsati_fixed.txt
+	
+	//MODIFICA TEST TWEET PARSATI
+	// cat test_set_tweets_parsati.txt | sort | uniq > test_set_tweet_parsati_fixed.txt
+	
 	public static void main( String[] args ) throws Exception {
 		
 		System.out.println("------ TRAINING SET ------");
-		
-		String rawTweets= "resources/training_set_tweets_fixed.txt";
-		String tweetsParsed ="resources/tweet_parsati.txt";
-		
-		Parser p = new Parser();
-		
-		System.out.println("****** INIZIO PARSING ******");
-		p.tweetsParsing(rawTweets, tweetsParsed);
+
+		String tweetsParsed ="resources/training_set_tweet_parsati_fixed.txt";
 		
 		String rawUser2City = "resources/training_set_users.txt";
 		String occurCity = "resources/occur_city.txt";
@@ -42,13 +37,9 @@ public class PreProcessing {
 				
 		System.out.println("------ TEST SET ------");
 		
-		String testSet= "resources/test_set_tweets_fixed.txt";
-		String testSetParsato ="resources/test_set_tweets_parsati.txt";
+		String testSetParsato ="resources/test_set_tweet_parsati_fixed.txt";
 		String usersSetTest = "resources/test_set_users.txt";
 		String position2Tweet = "resources/position2Tweet.txt";
-		
-		System.out.println("****** INIZIO PARSER ******");
-		p.tweetsParsing(testSet, testSetParsato);
 		
 		System.out.println("****** INIZIO JOIN ******");
 		c2t.userJoinLocation(usersSetTest,position2Tweet, testSetParsato);

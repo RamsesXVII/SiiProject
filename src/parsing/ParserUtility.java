@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class ParserUtility {
 	private String[] notWords={"@","#","http:","ftp:","https:","mailto:",".com",".edu","www."};
 	private HashSet<String> notWordsSet;
-	private HashSet<String> stopWordSet;
+	//private HashSet<String> stopWordSet;
 
 	public ParserUtility() throws IOException{
 		this.notWordsSet=new HashSet<>();
@@ -16,17 +16,17 @@ public class ParserUtility {
 		for(String word : notWords)
 			notWordsSet.add(word);
 		
-		this.stopWordSet = new HashSet<>();
-		
-		FileReader input = new FileReader("dictionary/stopWords.txt");
-		BufferedReader bufRead = new BufferedReader(input);
-		
-		String linea = null;
-		while ((linea = bufRead.readLine())!=null){
-			this.stopWordSet.add(linea);
-		}
-		
-		bufRead.close();
+		//this.stopWordSet = new HashSet<>();
+		//
+//		FileReader input = new FileReader("dictionary/stopWords.txt");
+//		BufferedReader bufRead = new BufferedReader(input);
+//		
+//		String linea = null;
+//		while ((linea = bufRead.readLine())!=null){
+//			this.stopWordSet.add(linea);
+//		}
+//		
+//		bufRead.close();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class ParserUtility {
 				if(validWord){
 					word=word.replaceAll("[^A-Za-z0-9\\-\\&\\' ]", "");
 					
-					if(!((word.length()==1) || (this.stopWordSet.contains(word)) || (word.matches("[\\-\\@\\&]+")))){
+					if(!((word.length()==1) || (word.matches("[\\-\\@\\&]+")))){
 						if(word.contains("'"))
 							word= word.replaceAll("'", "@");
 						cleanedText= cleanedText + " " + word;
