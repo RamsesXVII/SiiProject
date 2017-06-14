@@ -28,7 +28,6 @@ public class CityOfTweetsExpert {
 
 	public CityOfTweetsExpert(int k) throws ClassNotFoundException, SQLException{
 		MySQLAccess mysql= new MySQLAccess();
-		this.K_BEST=k;
 		System.out.println("inizio popolazione mappa");
 		myWordMap = mysql.populateWordMap();
 		System.out.println("finito popolazione mappa");
@@ -111,6 +110,7 @@ public class CityOfTweetsExpert {
 		if(this.candidateCities!=null && this.candidateCities.size()>0){
 			List<City2Score> toReturn = new LinkedList<City2Score>();
 			this.candidateCities.stream().forEach(e->toReturn.add(e));
+			System.out.print("con "+ K_BEST+"K ");
 			return toReturn.subList(0, Math.min(toReturn.size(),this.K_BEST));
 
 		}
@@ -198,6 +198,11 @@ public class CityOfTweetsExpert {
 
 	public void setMostFrequencyWord(TreeSet<String> mostFrequencyWord) {
 		this.mostFrequencyWord = mostFrequencyWord;
+	}
+
+	public void setKBest(int k) {
+		this.K_BEST=k;
+		
 	}
 
 

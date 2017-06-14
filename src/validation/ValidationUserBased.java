@@ -9,11 +9,11 @@ import java.util.Map;
 
 public class ValidationUserBased extends Validation{
 
-	public ValidationUserBased(){
+	public ValidationUserBased() throws ClassNotFoundException, SQLException{
 		super();
 	}
 
-	public ValidationUserBased(int k){
+	public ValidationUserBased(int k) throws ClassNotFoundException, SQLException{
 		super(k);
 	}
 
@@ -25,7 +25,6 @@ public class ValidationUserBased extends Validation{
 		FileWriter fw1 = new FileWriter(out,true);
 		BufferedWriter bw = new BufferedWriter(fw1);
 
-		CityOfTweetsExpert teller= new CityOfTweetsExpert(K);
 		User2tweetBuilder user2TweetB= new  User2tweetBuilder();
 		Map<String, double[]> user2City = user2TweetB.getUser2City();
 		user2TweetB.computerUser2tweet();
@@ -39,7 +38,7 @@ public class ValidationUserBased extends Validation{
 			String longTweet=user2tweet.get(user);
 			double[] tweetPos=user2City.get(user);
 			
-			super.writeBestGuessed(teller, longTweet, tweetPos, bw);
+			super.writeBestGuessed(longTweet, tweetPos, bw);
 			
 			String output = "a meno di 160km: "+ entroi160 +" su "+ counter;
 			bw.write(output+"\n\n");
@@ -49,11 +48,16 @@ public class ValidationUserBased extends Validation{
 		}
 
 
-		System.out.println("entro i 100km ne becco: " + entroi160);
 		Double media= distances.stream().mapToDouble((x)->x).average().getAsDouble();
-		System.out.println("la media e "+ media);
-
-
+		String distanceAvg = "la distanza media "+ media;
+		String finalOut = "entro i 160km: " + entroi160+" su "+counter;
+		String finalAccuracy = "accuratezza totale: " + (accuracy/new Double(counter));
+		System.out.println(finalOut);
+		System.out.println(distanceAvg);
+		System.out.println(finalAccuracy);
+		
+		bw.write(finalOut+"\n"+distanceAvg+"\n"+finalAccuracy);
+		bw.flush();
 		bw.close();
 
 

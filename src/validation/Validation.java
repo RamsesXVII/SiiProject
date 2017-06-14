@@ -13,24 +13,27 @@ public abstract class Validation {
 	protected List<Double> distances;
 	protected double accuracy = 0;
 	final protected int toleranceDistance=160;
+	protected CityOfTweetsExpert teller;
 
 	//interfaccica
 	public abstract void writeBestCity(String outPath) throws ClassNotFoundException, SQLException, IOException;
 
-	public Validation(){
-		this.K=5;
+	public Validation() throws ClassNotFoundException, SQLException{
+		this.K=5;	//DEFAULT VALUE
 		this.distances=new LinkedList<Double>();
 		this.entroi160=0;
+		teller= new CityOfTweetsExpert(K);
 	}
 
 
-	public Validation(int k2) {
-		this.K=k2;
+	public Validation(int k) throws ClassNotFoundException, SQLException {
+		this.K=k;
 		this.distances=new LinkedList<Double>();
 		this.entroi160=0;
+		teller= new CityOfTweetsExpert(K);
 	}
 
-	public void writeBestGuessed(CityOfTweetsExpert teller,String tweet,double[] tweetPos, BufferedWriter bw)
+	public void writeBestGuessed(String tweet,double[] tweetPos, BufferedWriter bw)
 			throws ClassNotFoundException, SQLException, IOException{
 		List<City2Score> best3Cities= new LinkedList<City2Score>();
 		best3Cities=teller.guessTweetPositionList(tweet);
@@ -89,6 +92,18 @@ public abstract class Validation {
 		double d2 = new Double(split[1]);
 		double[] d1d= {d1,d2};
 		return d1d;
+	}
+
+	public int getK() {
+		return K;
+	}
+
+	public void setK(int k) {
+		this.K = k;
+		this.entroi160=0;
+		this.accuracy=0;
+		this.distances=new LinkedList<Double>();
+		this.teller.setKBest(this.K);
 	}
 
 

@@ -14,20 +14,18 @@ public class ValidationTweetBased extends Validation{
 	private HashSet<String> userAnalized;
 
 
-	public ValidationTweetBased(){
+	public ValidationTweetBased() throws ClassNotFoundException, SQLException{
 		super();
 		userAnalized= new HashSet<String>();
 	}
 
-	public ValidationTweetBased(int i) {
-		super(i);
+	public ValidationTweetBased(int k) throws ClassNotFoundException, SQLException {
+		super(k);
 		userAnalized= new HashSet<String>();
 	}
 
 	@Override
 	public void writeBestCity(String outPath) throws ClassNotFoundException, SQLException, IOException{
-
-		CityOfTweetsExpert teller= new CityOfTweetsExpert(K);
 
 		File out = new File(outPath);
 		FileWriter fw1 = new FileWriter(out,true);
@@ -64,7 +62,7 @@ public class ValidationTweetBased extends Validation{
 					counter++;
 					double[] testPosition =user2City.get(user);
 					
-					super.writeBestGuessed(teller,tweet,testPosition,bw1);
+					super.writeBestGuessed(tweet,testPosition,bw1);
 					
 					int numbTweet=user2TweetsCount.get(user);
 					accuracyCurr= accuracy/new Double(numbTweet) ;
