@@ -1,4 +1,4 @@
-package tfIdfUtility;
+package utility;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import classificatore.FunzioneFocusDispersione;
+import cassificator.FunzioneFocusDispersione;
 /**
  * Class to associate each city to its latidute/longitude coordinates. 
  * It uses google geocodar api. To avoid to many requests, 150K pairs are updated from

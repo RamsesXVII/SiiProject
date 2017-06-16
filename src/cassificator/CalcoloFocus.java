@@ -1,4 +1,4 @@
-package classificatore;
+package cassificator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

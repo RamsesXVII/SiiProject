@@ -1,4 +1,4 @@
-package tfIdfUtility;
+package tfIdf;
 
 public class WordToCount {
 	private String word;

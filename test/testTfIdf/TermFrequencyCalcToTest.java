@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import tfIdfUtility.CityToCount;
-import tfIdfUtility.WordToCount;
+import tfIdf.CityToCount;
+import tfIdf.WordToCount;
 
 /*
  * Class to support test. Use a map instead of mysql.

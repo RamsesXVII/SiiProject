@@ -1,10 +1,12 @@
-package tfIdfUtility;
+package tfIdf;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import utility.CityToCountUtility;
 
 public class mainCity2Coordinates {
 

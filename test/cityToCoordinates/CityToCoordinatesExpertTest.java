@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.TreeMap;
 
-import classificatore.FunzioneFocusDispersione;
+import cassificator.FunzioneFocusDispersione;
 
 public class CityToCoordinatesExpertTest {
 

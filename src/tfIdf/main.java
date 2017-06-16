@@ -1,3 +1,4 @@
+package tfIdf;
 //package tfIdfUtility;
 //
 //import java.util.HashMap;

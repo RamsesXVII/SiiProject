@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import tfIdfUtility.MySQLAccess;
+import utility.MySQLAccess;
 
 public class CityOfTweetsExpert {
 	private String currentTweet;

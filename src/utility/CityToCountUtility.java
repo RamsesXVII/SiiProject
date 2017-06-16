@@ -1,4 +1,4 @@
-package tfIdfUtility;
+package utility;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import tfIdf.CityToCount;
+import tfIdf.WordToCount;
 import validation.CityOfTweetsExpert;
 
 public class CityToCountUtility {

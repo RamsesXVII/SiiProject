@@ -1,13 +1,13 @@
-package tfIdfUtility;
+package tfIdf;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import tfIdfUtility.CityToCount;
-import tfIdfUtility.MySQLAccess;
-import tfIdfUtility.WordToCount;
+import tfIdf.CityToCount;
+import tfIdf.WordToCount;
+import utility.MySQLAccess;
 
 /*
  * Class to support test. Use a map instead of mysql.

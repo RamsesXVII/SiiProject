@@ -10,9 +10,9 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import tfIdfUtility.CityToCount;
-import tfIdfUtility.CityToCountUtility;
-import tfIdfUtility.WordToCount;
+import tfIdf.CityToCount;
+import tfIdf.WordToCount;
+import utility.CityToCountUtility;
 
 
 public class CityToCountTest {
