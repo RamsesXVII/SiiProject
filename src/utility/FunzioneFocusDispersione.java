@@ -1,4 +1,4 @@
-package cassificator;
+package utility;
 
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;

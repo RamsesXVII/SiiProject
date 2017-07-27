@@ -20,7 +20,7 @@ public class CityUtility {
 	public boolean isUSALocation(String location) {
 		location=location.toLowerCase().trim().replaceAll(" ", "");
 		
-		//prendo solo quelle nella forma 'citta,stato' o solo citta se è una top 100
+		//prendo solo quelle nella forma 'citta,stato' o solo citta se ï¿½ una top 100
 		if(!this.isUSACountry(location)){
 			if(!location.contains(","))
 				return this.isABigCity(location);
@@ -69,7 +69,8 @@ public class CityUtility {
 		while (file.hasNextLine()){
 			itemToInsert=file.nextLine().toLowerCase().trim().replaceAll(" ", "");
 			items.add(itemToInsert);}
-
+		
+		file.close();
 		return items;
 
 	}

@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MySQLAccessTest {
 	private Connection connect = null;
@@ -44,6 +45,60 @@ public class MySQLAccessTest {
 		} catch (Exception e) {
 
 		}
+	}
+	
+	private int getLattice(String city){
+		String[] latLong = city.split("\\$");
+		int latitude = Integer.parseInt(latLong[0].split("\\.")[0]);
+		int longitude = Integer.parseInt(latLong[1].split("\\.")[0]);
+		
+		int lattice = (latitude * 10000) + (longitude * -1);
+		
+		return lattice;
+	}
+	
+	public Map<String, Map<Integer, Double>> populateWordtoLatticeMap() throws SQLException{
+		
+		Map<String,Map<Integer,Double>> wordLatticeMap= new TreeMap<String, Map<Integer,Double>>();
+		preparedStatement = connect.prepareStatement("select word,city,tfidf from testTable order by word");
+		resultSet = preparedStatement.executeQuery();
+		String prevWord="";
+		String currentWord="";
+		String city=null;
+		Double tfidf=null;
+		Map<Integer, Double> oldLattice2score=null;
+		Map<Integer, Double>  lattice2score=null;
+
+		while (resultSet.next()) {
+			try{
+				city=resultSet.getString("city"); 
+				tfidf=resultSet.getDouble("tfidf");
+				currentWord= resultSet.getString("word");
+
+				if(currentWord.equals(prevWord)){
+					int lattice = this.getLattice(city);
+					Double oldTfidf = lattice2score.put(lattice,tfidf);
+					if (oldTfidf!=null)
+						lattice2score.put(lattice, oldTfidf + tfidf);
+				}else{
+					prevWord=currentWord;
+					lattice2score= new TreeMap<Integer, Double>();
+					lattice2score.put(this.getLattice(city),tfidf);
+					oldLattice2score= wordLatticeMap.put(currentWord, lattice2score);
+					if(oldLattice2score!=null){
+						lattice2score.putAll(oldLattice2score);
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				System.out.println("eccezione");
+				System.out.println(resultSet.getString("city"));
+				System.out.println(resultSet.getString("tfidf"));
+			}
+		}
+		this.close();
+		System.out.println("ho finito di aggiungere in mappa");
+		return wordLatticeMap;
 	}
 	
 	public Map<String, Map<String, Double>> populateWordMap() throws SQLException{

@@ -16,22 +16,27 @@ import utility.MySQLAccess;
 public class CityOfTweetsExpert {
 	private String currentTweet;
 	private Set<City2Score> candidateCities;
+
 	private Map<String, Map<String, Double>> myWordMap;
+	private Map<String, Map<Integer, Double>> myWordLatticeMap;
 	private int K_BEST;
 	private TreeSet<String> mostFrequencyWord;
 
 
 	public CityOfTweetsExpert(){
 		this.populateMostFrequencyWord();
-		
+
 	}
 
 	public CityOfTweetsExpert(int k) throws ClassNotFoundException, SQLException{
 		MySQLAccess mysql= new MySQLAccess();
-		System.out.println("inizio popolazione mappa");
+		System.out.println("inizio popolazione mappa parole");
 		myWordMap = mysql.populateWordMap();
-		System.out.println("finito popolazione mappa");
-		populateMostFrequencyWord();
+		System.out.println("finito popolazione mappa parole");
+		System.out.println("inizio popolazione lattice");
+		myWordLatticeMap = mysql.populateWordtoLatticeMap();
+		System.out.println("fine popolazione lattice");
+		this.populateMostFrequencyWord();
 
 	}
 
@@ -52,9 +57,6 @@ public class CityOfTweetsExpert {
 			e.printStackTrace();
 		}
 
-
-
-
 	}
 
 	/**
@@ -67,7 +69,7 @@ public class CityOfTweetsExpert {
 		this.currentTweet=tweet;
 		this.candidateCities=new TreeSet<City2Score>();
 		String[] words = tweet.split(" ");
-		guessThePossibleCities(words);
+		guessByLattice(words);
 		return getBestCityCoordinatesList();
 
 	}
@@ -112,37 +114,54 @@ public class CityOfTweetsExpert {
 			this.candidateCities.stream().forEach(e->toReturn.add(e));
 			System.out.print("con "+ K_BEST+"K ");
 			return toReturn.subList(0, Math.min(toReturn.size(),this.K_BEST));
-
 		}
 		else return null;
 	}
 
+	private Double getLatticeValue(Map<Integer, Double> wordLattice, Integer vicino){
+		Double value = wordLattice.get(vicino);
+		if (value == null)
+			return 0.0;
+		return value;
+	}
 
-	/**
-	 * popola candidateCities con le citta più adatte per le words passate
-	 * @param words le parole del tweet
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	private void guessThePossibleCitiesOld(String[] words) throws ClassNotFoundException, SQLException {
+
+	private void guessByLattice(String[] words) throws ClassNotFoundException, SQLException{
 		Map<String,City2Score> takenCity=new TreeMap<String,City2Score>();
 
-		for(String word: words){
+		for (String word: words){
+			if(this.mostFrequencyWord.contains(word)){
+				Map<String, Double> cityToScore = myWordMap.get(word);
+				Map<Integer, Double> latticeToScore = myWordLatticeMap.get(word);
+				if(cityToScore!=null){
+					for(String city: cityToScore.keySet()){
+						String[] latLong = city.split("\\$");
+						int latitude = Integer.parseInt(latLong[0].split("\\.")[0]);
+						int longitude = Integer.parseInt(latLong[1].split("\\.")[0]);
 
-			Map<String, Double> cityEScore = myWordMap.get(word);
-			if(cityEScore!=null){
-				for(String city: cityEScore.keySet()){
-					City2Score currCityScore = new City2Score(city, cityEScore.get(city));
-					if(!takenCity.containsKey(city))
-						takenCity.put(city, currCityScore);
-					else
-						takenCity.get(city).sumScore(currCityScore);
+						int lattice = (latitude * 10000) + (longitude * -1);
+
+						double center = latticeToScore.get(lattice) * 0.70;
+						double tot = 0.0;
+						tot += getLatticeValue(latticeToScore, lattice -10000);
+						tot += getLatticeValue(latticeToScore, lattice +10000);
+						tot += getLatticeValue(latticeToScore, lattice -1);
+						tot += getLatticeValue(latticeToScore, lattice +1);
+
+						double latticeProbability = center + tot * 0.30;
+
+						City2Score currCityScore = new City2Score(city, latticeProbability * 0.4 + cityToScore.get(city) * 0.6);
+						if(!takenCity.containsKey(city))
+							takenCity.put(city, currCityScore);
+						else
+							takenCity.get(city).sumScore(currCityScore);
+					}
+
 				}
-			}	
+			}
 		}
 		this.candidateCities.addAll(takenCity.values());
 	}
-
 
 
 	private void guessThePossibleCities(String[] words) throws ClassNotFoundException, SQLException {
@@ -202,7 +221,7 @@ public class CityOfTweetsExpert {
 
 	public void setKBest(int k) {
 		this.K_BEST=k;
-		
+
 	}
 
 

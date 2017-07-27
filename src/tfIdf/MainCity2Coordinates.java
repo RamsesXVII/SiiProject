@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import utility.CityToCountUtility;
 
-public class mainCity2Coordinates {
+public class MainCity2Coordinates {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
 		

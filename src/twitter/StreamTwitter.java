@@ -1,14 +1,10 @@
 package twitter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import com.google.common.base.CharMatcher;
 
-import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -57,6 +53,7 @@ class StreamTwitter {
 		// sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
 		twitter.sample();
 		//twitter.filter("#romainter");
+		writer.close();
 	}
 
 

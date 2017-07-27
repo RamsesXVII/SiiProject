@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.TreeMap;
-
-import cassificator.FunzioneFocusDispersione;
 /**
  * Class to associate each city to its latidute/longitude coordinates. 
  * It uses google geocodar api. To avoid to many requests, 150K pairs are updated from
@@ -19,7 +17,6 @@ public class CityToCoordinatesExpert {
 
 	private String pathToFileUsCity2Coordinates;
 	private TreeMap<String,String> city2Coordinates;
-	private int requestCounter=0;
 
 	public CityToCoordinatesExpert(String pathToFileUsCity2Coordinates) {
 		this.pathToFileUsCity2Coordinates=pathToFileUsCity2Coordinates;

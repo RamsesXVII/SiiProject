@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import twitter.CityUtility;
 import validation.User2tweetBuilder;
 
 public class validationAggregatedTest {

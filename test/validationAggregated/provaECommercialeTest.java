@@ -1,17 +1,10 @@
 package validationAggregated;
-import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import twitter.CityUtility;
 import validation.City2Score;
 import validation.CityOfTweetsExpert;
-import validation.Validation;
-
 
 public class provaECommercialeTest {
 	

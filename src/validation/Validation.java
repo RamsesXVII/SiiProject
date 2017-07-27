@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * 
+ * @author oddi
+ *
+ */
 public abstract class Validation {
 
 	protected int K;
@@ -15,7 +19,7 @@ public abstract class Validation {
 	final protected int toleranceDistance=160;
 	protected CityOfTweetsExpert teller;
 
-	//interfaccica
+	//interfaccia
 	public abstract void writeBestCity(String outPath) throws ClassNotFoundException, SQLException, IOException;
 
 	public Validation() throws ClassNotFoundException, SQLException{
@@ -47,7 +51,6 @@ public abstract class Validation {
 
 					double distance=distance(tweetPos[0],tweetPos[1], guessedPos[0], guessedPos[1],"K");
 
-					String output = "distance: "+distance;
 					distances.add(distance);
 					//bw.write(output+"\n");
 					//bw.flush();
@@ -60,10 +63,6 @@ public abstract class Validation {
 					}
 				}
 			}
-		}else{
-			//System.out.println("nessuna parola classificate nel tweet");
-			//bw.write("nessuna parola classificate nel tweet\n");
-			//bw.flush();
 		}
 
 	}
@@ -105,7 +104,4 @@ public abstract class Validation {
 		this.distances=new LinkedList<Double>();
 		this.teller.setKBest(this.K);
 	}
-
-
-
 }
