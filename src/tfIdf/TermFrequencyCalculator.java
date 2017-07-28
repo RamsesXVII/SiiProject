@@ -15,14 +15,12 @@ import utility.MySQLAccess;
 public class TermFrequencyCalculator {
 	private HashMap<String, HashSet<CityToCount>>  words2citiesToCount;
 	private HashMap<String,HashSet<WordToCount>> cities2wordsToCount;
-	private int numberOfCitiesTotal;
 	private MySQLAccess mAccess;
 
 	public TermFrequencyCalculator(HashMap<String, HashSet<CityToCount>> words2citiesToCount,
 			HashMap<String,HashSet<WordToCount>> cities2wordsToCount) throws ClassNotFoundException, SQLException{
 		this.words2citiesToCount=words2citiesToCount;
 		this.cities2wordsToCount=cities2wordsToCount;
-		this.numberOfCitiesTotal=cities2wordsToCount.keySet().size();
 		this.mAccess= new MySQLAccess();
 	}
 
@@ -42,12 +40,12 @@ public class TermFrequencyCalculator {
 				System.out.println(counter);
 
 			Set<CityToCount>cities2Count=this.words2citiesToCount.get(word);
-			int numberOfCitiesByTerm=cities2Count.size();
+			int globalWordCount = computeGlobalWordCount(cities2Count);
 			for(CityToCount city:cities2Count){
-				int maxOccurrencies=computeMaxOccurrencies(this.cities2wordsToCount.get(city.getCity()));
+				int occurencySingleCity=computeCityOccurrencies(this.cities2wordsToCount.get(city.getCity()));
 
 				int numberOfOccurrencies=city.getCount();
-				double tfIdf=computeTfIdf(numberOfOccurrencies,maxOccurrencies,this.numberOfCitiesTotal,numberOfCitiesByTerm);
+				double tfIdf=computeTfIdf(numberOfOccurrencies,occurencySingleCity,globalWordCount,words.size());
 				citiesToScore.put(city.getCity(), tfIdf);
 			}
 			this.mAccess.persistfIdfFromMap1(word, citiesToScore);
@@ -57,21 +55,25 @@ public class TermFrequencyCalculator {
 		return word2cityTfIdf;
 	}
 
-	private double computeTfIdf(Integer count, int maxOccurrencies, int numberOfCitiesTotal, int numberOfCitiesByTerm) {
-		double tf= (count*1.0)/(maxOccurrencies*1.0);
-		double idf=Math.log((numberOfCitiesTotal*1.0)/(numberOfCitiesByTerm*1.0));
+	private double computeTfIdf(Integer count, int cityWordCount, int maxOccurencies, int numberOfWord) {
+		double tf= (count*1.0)/(cityWordCount*1.0);
+		double idf= (maxOccurencies*1.0)/(numberOfWord*1.0);
 		return idf*tf;
 	}
-
-	private int computeMaxOccurrencies(Set<WordToCount> words2Count) {
-		int max=-1;
-		for(WordToCount word: words2Count){
-			if(word.getCount()>max)
-				max=word.getCount();
+	
+	private int computeGlobalWordCount(Set<CityToCount> cities2Count) {
+		int max=0;
+		for(CityToCount city: cities2Count){
+			max += city.getCount();
 		}
 		return max;
 	}
-
-
-
+	
+	private int computeCityOccurrencies(Set<WordToCount> words2Count) {
+		int max=0;
+		for(WordToCount word: words2Count){
+			max += word.getCount();
+		}
+		return max;
+	}
 }
