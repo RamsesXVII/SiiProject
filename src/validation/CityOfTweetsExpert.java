@@ -150,7 +150,7 @@ public class CityOfTweetsExpert {
 
 						double latticeProbability = center + tot * 0.30;
 
-						City2Score currCityScore = new City2Score(city, latticeProbability * 0.4 + cityToScore.get(city) * 0.6);
+						City2Score currCityScore = new City2Score(city, latticeProbability * 0.25 + cityToScore.get(city) * 0.75);
 						if(!takenCity.containsKey(city))
 							takenCity.put(city, currCityScore);
 						else
